@@ -5,26 +5,40 @@ body {
   color: white;
 }
 
+/* HEADER */
 header {
   background: linear-gradient(90deg,#0d6efd,#6610f2);
-  padding: 15px;
+  padding: 12px;
   text-align: center;
-  font-size: 22px;
+  font-size: 18px;
+  letter-spacing: 1px;
 }
 
+/* BUSCADOR */
 #buscador {
-  width: 90%;
-  margin: 10px auto;
+  width: 85%;
+  margin: 8px auto;
   display: block;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: none;
+  font-size: 12px;
+  background: #1e293b;
+  color: white;
+  opacity: 0.8;
+}
+
+#buscador:focus {
+  outline: none;
+  opacity: 1;
+  background: #273549;
 }
 
 /* CATEGORÍAS */
 #filtros {
   display: flex;
   overflow-x: auto;
-  gap: 10px;
+  gap: 8px;
   padding: 10px;
 }
 
@@ -32,8 +46,9 @@ header {
   background:#1e293b;
   color:white;
   border:none;
-  padding:8px;
+  padding:5px 10px;
   border-radius:20px;
+  font-size:11px;
 }
 
 /* GRID */
@@ -57,49 +72,78 @@ header {
   border-radius:10px;
   overflow:hidden;
   position:relative;
+  transition:0.2s;
 }
 
-.badge {
-  position:absolute;
-  top:10px;
-  left:10px;
-  background:red;
-  padding:5px;
-  border-radius:5px;
+.card:hover {
+  transform:scale(1.05);
 }
 
+/* IMAGEN */
 .card img {
   width:100%;
-  height:150px;
+  height:160px;
   object-fit:cover;
 }
 
-.card-body { padding:8px;}
+/* BADGE */
+.badge {
+  position:absolute;
+  top:6px;
+  left:6px;
+  background:red;
+  padding:3px 6px;
+  font-size:10px;
+  border-radius:4px;
+}
 
+/* CONTENIDO */
+.card-body {
+  padding:8px;
+}
+
+.nombre {
+  font-size:12px;
+  font-weight:600;
+}
+
+/* PRECIOS */
 .precio {
   text-decoration: line-through;
-  color:#888;
+  color:#666;
+  font-size:11px;
 }
 
 .oferta {
   color:#00ff88;
   font-weight:bold;
+  font-size:15px;
 }
 
 /* BOTONES */
-.btn {
-  display:block;
+.btn-group {
+  display:flex;
+  justify-content:space-between;
   margin-top:5px;
-  padding:6px;
-  text-align:center;
-  border-radius:6px;
-  text-decoration:none;
 }
 
-.btn-wsp { background:#25D366; color:white;}
-.btn-oferta { background:#ffc107; color:black;}
-.btn-info { background:#0dcaf0; color:black;}
-.btn-gift { background:#ff4d6d; color:white;}
+.btn-mini {
+  background:#0dcaf0;
+  border:none;
+  padding:3px 5px;
+  border-radius:5px;
+  font-size:10px;
+}
+
+.btn-wsp {
+  background:#25D366;
+  border:none;
+  padding:3px 6px;
+  border-radius:5px;
+  font-size:10px;
+  color:white;
+  text-decoration:none;
+}
 
 /* MODAL */
 .modal {
@@ -116,7 +160,7 @@ header {
 
 .modal-content {
   background:#1e293b;
-  padding:20px;
+  padding:25px 15px 15px;
   border-radius:10px;
   max-width:90%;
   position:relative;
@@ -124,13 +168,12 @@ header {
 
 .close {
   position:absolute;
-  top:10px;
-  right:15px;
-  background:red;
-  color:white;
+  top:8px;
+  right:8px;
+  width:26px;
+  height:26px;
+  background:rgba(0,0,0,0.6);
   border-radius:50%;
-  width:30px;
-  height:30px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -143,16 +186,12 @@ header {
   padding:10px;
 }
 
-#paginacion button {
-  margin:3px;
-}
-
 /* WHATSAPP */
 #wsp-float {
   position:fixed;
   bottom:15px;
   right:15px;
   background:#25D366;
-  padding:15px;
+  padding:14px;
   border-radius:50%;
 }
