@@ -1,5 +1,7 @@
 const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXtTi9Ap5ZNdHJrpEn7p2Dx07iAJBQH814jw4p6tBslh3fsCZhnTTExdVLPLPLK/pub?output=csv";
 
+
+
 let productos = [];
 let categorias = new Set();
 
@@ -55,10 +57,13 @@ function renderProductos(lista) {
   lista.forEach((p, i) => {
     html += `
       <div class="card">
-        <img src="${p.imagen}" onclick="abrirModal('${p.imagen}')">
+        ${p.promocion.trim().toLowerCase() === "si" ? `<div class="badge">OFERTA</div>` : ""}
+
+        <img src="${p.imagen}" onclick="abrirModal('${p.imagen}')" onerror="this.src='https://via.placeholder.com/300'">
 
         <div class="card-body">
           <b>${p.nombre}</b>
+
           <p class="precio">S/ ${p.precio}</p>
 
           ${
@@ -80,10 +85,19 @@ function renderProductos(lista) {
   document.getElementById("productos").innerHTML = html;
 }
 
+/* BUSCADOR */
+document.getElementById("buscador").addEventListener("input", function(e) {
+  let texto = e.target.value.toLowerCase();
+  let filtrados = productos.filter(p => p.nombre.toLowerCase().includes(texto));
+  renderProductos(filtrados);
+});
+
+/* OFERTA */
 function mostrarOferta(i) {
   document.getElementById("oferta-" + i).style.display = "block";
 }
 
+/* MODAL */
 function abrirModal(img) {
   document.getElementById("modal").style.display = "flex";
   document.getElementById("modal-img").src = img;
