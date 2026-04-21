@@ -5,10 +5,11 @@ fetch(url)
   .then(data => {
     const filas = data.split("\n").slice(1);
 
-    filas.forEach(fila => {
+    filas.forEach((fila, index) => {
       const col = fila.split(",");
 
       const nombre = col[1];
+      const promocion = col[2];
       const precio = col[3];
       const precioOferta = col[4];
       const descripcion = col[5];
@@ -16,14 +17,40 @@ fetch(url)
 
       document.getElementById("productos").innerHTML += `
         <div class="card">
-          <img src="${imagen}" width="200">
-          <h3>${nombre}</h3>
-          <p>${descripcion}</p>
-          <p><del>S/ ${precio}</del> <b>S/ ${precioOferta}</b></p>
-          <a target="_blank" href="https://wa.me/51999999999?text=Quiero cotizar ${nombre}">
-            Cotizar
-          </a>
+          <img src="${imagen}" onclick="abrirModal('${imagen}')">
+
+          <div class="card-body">
+            <h3>${nombre}</h3>
+            <p>${descripcion}</p>
+
+            <p class="precio">S/ ${precio}</p>
+
+            ${
+              promocion === "si"
+              ? `<button class="btn btn-oferta" onclick="mostrarOferta(${index})">Ver oferta</button>
+                 <p id="oferta-${index}" class="oferta" style="display:none;">S/ ${precioOferta}</p>`
+              : ""
+            }
+
+            <a class="btn" target="_blank"
+              href="https://wa.me/51999999999?text=Quiero cotizar ${nombre}">
+              Cotizar
+            </a>
+          </div>
         </div>
       `;
     });
   });
+
+function mostrarOferta(i) {
+  document.getElementById("oferta-" + i).style.display = "block";
+}
+
+function abrirModal(img) {
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modal-img").src = img;
+}
+
+document.getElementById("modal").onclick = function() {
+  this.style.display = "none";
+};
