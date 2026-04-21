@@ -1,6 +1,9 @@
 const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXtTi9Ap5ZNdHJrpEn7p2Dx07iAJBQH814jw4p6tBslh3fsCZhnTTExdVLPLPLK/pub?output=csv";
 
+
+
 let productos = [];
+let categorias = new Set();
 let pagina = 1;
 const porPagina = 6;
 
@@ -11,9 +14,9 @@ fetch(url)
 
   filas.forEach(fila=>{
     const col = fila.split(",");
-    if(col.length<9) return;
+    if(col.length < 8) return;
 
-    productos.push({
+    let prod = {
       categoria: col[1],
       nombre: col[2],
       promocion: col[3],
@@ -21,37 +24,64 @@ fetch(url)
       oferta: col[5],
       descripcion: col[6],
       imagen: col[7],
-      obsequio: col[8]
-    });
+      obsequio: col[8] || ""
+    };
+
+    productos.push(prod);
+    categorias.add(prod.categoria);
   });
 
+  renderCategorias();
   render();
 });
 
+/* CATEGORÍAS */
+function renderCategorias(){
+  let html = `<button class="filtro-btn" onclick="filtrar('all')">Todos</button>`;
+  categorias.forEach(c=>{
+    html += `<button class="filtro-btn" onclick="filtrar('${c}')">${c}</button>`;
+  });
+  document.getElementById("filtros").innerHTML = html;
+}
+
+function filtrar(cat){
+  if(cat==="all"){
+    render();
+  } else {
+    let filtrados = productos.filter(p=>p.categoria===cat);
+    renderLista(filtrados);
+  }
+}
+
+/* RENDER */
 function render(){
   let inicio = (pagina-1)*porPagina;
-  let fin = inicio + porPagina;
-  let lista = productos.slice(inicio,fin);
+  let lista = productos.slice(inicio,inicio+porPagina);
+  renderLista(lista);
+  renderPaginacion();
+}
 
+function renderLista(lista){
   let html="";
   lista.forEach((p,i)=>{
     let imgs = p.imagen.split("|").map(x=>x.trim());
 
     html+=`
     <div class="card">
-      ${p.promocion.trim().toLowerCase()==="no" ? `<div class="badge">OFERTA</div>`:""}
+      ${p.promocion.toLowerCase()==="no" ? `<div class="badge">OFERTA</div>`:""}
+
       <img src="${imgs[0]}" onclick="verImagenes('${p.imagen}')">
 
       <div class="card-body">
         <b>${p.nombre}</b>
-        <p class="precio">S/ ${p.precio}</p>
 
-        ${p.promocion.trim().toLowerCase()==="no"
-          ? `<button class="btn btn-oferta" onclick="mostrarOferta(${i})">Ver oferta</button>
-             <p id="oferta-${i}" class="oferta" style="display:none;">S/ ${p.oferta}</p>`
-          : ""}
+        ${
+          p.promocion.toLowerCase()==="no"
+          ? `<p><span class="precio">S/ ${p.precio}</span> <span class="oferta">S/ ${p.oferta}</span></p>`
+          : `<p class="oferta">S/ ${p.precio}</p>`
+        }
 
-        <button class="btn btn-info" onclick="verDesc('${p.descripcion}')">Ver detalle</button>
+        <button class="btn btn-info" onclick="verDesc('${p.descripcion}')">Detalle</button>
 
         ${p.obsequio ? `<button class="btn btn-gift" onclick="verGift('${p.obsequio}')">🎁 Obsequio</button>`:""}
 
@@ -64,9 +94,9 @@ function render(){
   });
 
   document.getElementById("productos").innerHTML=html;
-  renderPaginacion();
 }
 
+/* PAGINACIÓN */
 function renderPaginacion(){
   let total = Math.ceil(productos.length/porPagina);
   let html="";
@@ -106,8 +136,4 @@ function abrirModal(id){
 
 function cerrarModal(id){
   document.getElementById(id).style.display="none";
-}
-
-function mostrarOferta(i){
-  document.getElementById("oferta-"+i).style.display="block";
 }
