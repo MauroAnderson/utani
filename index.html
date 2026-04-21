@@ -14,18 +14,35 @@
 <input type="text" id="buscador" placeholder="🔍 Buscar productos...">
 
 <div id="filtros"></div>
-
 <div id="productos"></div>
+<div id="paginacion"></div>
 
-<!-- MODAL -->
-<div id="modal">
-  <img id="modal-img">
+<!-- MODAL IMAGEN -->
+<div id="modalImg" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModal('modalImg')">✖</span>
+    <div id="galeria"></div>
+  </div>
 </div>
 
-<!-- BOTÓN WHATSAPP -->
+<!-- MODAL DESCRIPCIÓN -->
+<div id="modalDesc" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModal('modalDesc')">✖</span>
+    <div id="contenidoDesc"></div>
+  </div>
+</div>
+
+<!-- MODAL OBSEQUIO -->
+<div id="modalGift" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModal('modalGift')">✖</span>
+    <div id="contenidoGift"></div>
+  </div>
+</div>
+
 <a id="wsp-float" href="https://wa.me/51921891070" target="_blank">💬</a>
 
 <script src="app.js"></script>
-
 </body>
 </html>
