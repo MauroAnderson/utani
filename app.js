@@ -1,7 +1,6 @@
 const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXtTi9Ap5ZNdHJrpEn7p2Dx07iAJBQH814jw4p6tBslh3fsCZhnTTExdVLPLPLK/pub?output=csv";
 
 
-
 let productos = [];
 let categorias = new Set();
 let pagina = 1;
@@ -23,8 +22,7 @@ fetch(url)
       precio: col[4],
       oferta: col[5],
       descripcion: col[6],
-      imagen: col[7],
-      obsequio: col[8] || ""
+      imagen: col[7]
     };
 
     productos.push(prod);
@@ -45,19 +43,20 @@ function renderCategorias(){
 }
 
 function filtrar(cat){
-  if(cat==="all"){
-    render();
-  } else {
-    let filtrados = productos.filter(p=>p.categoria===cat);
-    renderLista(filtrados);
-  }
+  if(cat==="all") render();
+  else renderLista(productos.filter(p=>p.categoria===cat));
 }
+
+/* BUSCADOR */
+document.getElementById("buscador").addEventListener("input", e=>{
+  let t = e.target.value.toLowerCase();
+  renderLista(productos.filter(p=>p.nombre.toLowerCase().includes(t)));
+});
 
 /* RENDER */
 function render(){
   let inicio = (pagina-1)*porPagina;
-  let lista = productos.slice(inicio,inicio+porPagina);
-  renderLista(lista);
+  renderLista(productos.slice(inicio,inicio+porPagina));
   renderPaginacion();
 }
 
@@ -73,22 +72,22 @@ function renderLista(lista){
       <img src="${imgs[0]}" onclick="verImagenes('${p.imagen}')">
 
       <div class="card-body">
-        <b>${p.nombre}</b>
+        <div class="nombre">${p.nombre}</div>
 
         ${
           p.promocion.toLowerCase()==="no"
-          ? `<p><span class="precio">S/ ${p.precio}</span> <span class="oferta">S/ ${p.oferta}</span></p>`
-          : `<p class="oferta">S/ ${p.precio}</p>`
+          ? `<div><span class="precio">S/ ${p.precio}</span> <span class="oferta">S/ ${p.oferta}</span></div>`
+          : `<div class="oferta">S/ ${p.precio}</div>`
         }
 
-        <button class="btn btn-info" onclick="verDesc('${p.descripcion}')">Detalle</button>
+        <div class="btn-group">
+          <button class="btn-mini" onclick="verDesc('${p.descripcion}')">Info</button>
 
-        ${p.obsequio ? `<button class="btn btn-gift" onclick="verGift('${p.obsequio}')">🎁 Obsequio</button>`:""}
-
-        <a class="btn btn-wsp" target="_blank"
-        href="https://wa.me/51921891070?text=Hola, quiero cotizar ${p.nombre}">
-        Cotizar
-        </a>
+          <a class="btn-wsp" target="_blank"
+          href="https://wa.me/51921891070?text=Hola, quiero cotizar ${p.nombre}">
+          💬
+          </a>
+        </div>
       </div>
     </div>`;
   });
@@ -123,11 +122,6 @@ function verImagenes(imgs){
 function verDesc(txt){
   document.getElementById("contenidoDesc").innerText=txt;
   abrirModal("modalDesc");
-}
-
-function verGift(txt){
-  document.getElementById("contenidoGift").innerText=txt;
-  abrirModal("modalGift");
 }
 
 function abrirModal(id){
