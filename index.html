@@ -9,14 +9,23 @@
 
 <body>
 
-<header>UTANI STORE ⚡</header>
+<header>
+  <div class="topbar">
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <input type="text" id="buscador" placeholder="Buscar...">
+  </div>
+</header>
 
-<input type="text" id="buscador" placeholder="Buscar...">
+<!-- MENU LATERAL -->
+<div id="menu" class="menu"></div>
 
-<div id="filtros"></div>
+<!-- OFERTAS -->
+<div id="ofertas"></div>
 
+<!-- PRODUCTOS -->
 <div id="productos"></div>
 
+<!-- BOTON LOAD -->
 <div id="loadMore"></div>
 
 <!-- MODALES -->
