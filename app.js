@@ -2,9 +2,7 @@ const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXt
 
 
 let productos = [];
-let categorias = new Set();
-let pagina = 1;
-const porPagina = 6;
+let visibles = 12;
 
 fetch(url)
 .then(res=>res.text())
@@ -15,60 +13,29 @@ fetch(url)
     const col = fila.split(",");
     if(col.length < 8) return;
 
-    let prod = {
-      categoria: col[1],
+    productos.push({
       nombre: col[2],
       promocion: col[3],
       precio: col[4],
       oferta: col[5],
       descripcion: col[6],
-      imagen: col[7]
-    };
-
-    productos.push(prod);
-    categorias.add(prod.categoria);
+      imagen: col[7],
+      obsequio: col[8] || ""
+    });
   });
 
-  renderCategorias();
   render();
 });
 
-/* CATEGORÍAS */
-function renderCategorias(){
-  let html = `<button class="filtro-btn" onclick="filtrar('all')">Todos</button>`;
-  categorias.forEach(c=>{
-    html += `<button class="filtro-btn" onclick="filtrar('${c}')">${c}</button>`;
-  });
-  document.getElementById("filtros").innerHTML = html;
-}
-
-function filtrar(cat){
-  if(cat==="all") render();
-  else renderLista(productos.filter(p=>p.categoria===cat));
-}
-
-/* BUSCADOR */
-document.getElementById("buscador").addEventListener("input", e=>{
-  let t = e.target.value.toLowerCase();
-  renderLista(productos.filter(p=>p.nombre.toLowerCase().includes(t)));
-});
-
-/* RENDER */
 function render(){
-  let inicio = (pagina-1)*porPagina;
-  renderLista(productos.slice(inicio,inicio+porPagina));
-  renderPaginacion();
-}
+  let lista = productos.slice(0, visibles);
 
-function renderLista(lista){
   let html="";
-  lista.forEach((p,i)=>{
+  lista.forEach(p=>{
     let imgs = p.imagen.split("|").map(x=>x.trim());
 
     html+=`
     <div class="card">
-      ${p.promocion.toLowerCase()==="no" ? `<div class="badge">OFERTA</div>`:""}
-
       <img src="${imgs[0]}" onclick="verImagenes('${p.imagen}')">
 
       <div class="card-body">
@@ -82,7 +49,7 @@ function renderLista(lista){
 
         <div class="btn-group">
           <button class="btn-mini" onclick="verDesc('${p.descripcion}')">Info</button>
-
+          ${p.obsequio ? `<button class="btn-gift" onclick="verGift('${p.obsequio}')">🎁</button>`:""}
           <a class="btn-wsp" target="_blank"
           href="https://wa.me/51921891070?text=Hola, quiero cotizar ${p.nombre}">
           💬
@@ -92,23 +59,32 @@ function renderLista(lista){
     </div>`;
   });
 
-  document.getElementById("productos").innerHTML=html;
+  document.getElementById("productos").innerHTML = html;
+
+  renderLoadMore();
 }
 
-/* PAGINACIÓN */
-function renderPaginacion(){
-  let total = Math.ceil(productos.length/porPagina);
-  let html="";
-  for(let i=1;i<=total;i++){
-    html+=`<button onclick="cambiarPagina(${i})">${i}</button>`;
+function renderLoadMore(){
+  if(visibles >= productos.length){
+    document.getElementById("loadMore").innerHTML = "";
+    return;
   }
-  document.getElementById("paginacion").innerHTML=html;
+
+  document.getElementById("loadMore").innerHTML =
+    `<button onclick="cargarMas()">Ver más productos</button>`;
 }
 
-function cambiarPagina(p){
-  pagina=p;
+function cargarMas(){
+  visibles += 12;
   render();
 }
+
+/* BUSCADOR */
+document.getElementById("buscador").addEventListener("input", e=>{
+  let t = e.target.value.toLowerCase();
+  let filtrados = productos.filter(p=>p.nombre.toLowerCase().includes(t));
+  renderLista(filtrados);
+});
 
 /* MODALES */
 function verImagenes(imgs){
@@ -122,6 +98,11 @@ function verImagenes(imgs){
 function verDesc(txt){
   document.getElementById("contenidoDesc").innerText=txt;
   abrirModal("modalDesc");
+}
+
+function verGift(txt){
+  document.getElementById("contenidoGift").innerText="🎁 "+txt;
+  abrirModal("modalGift");
 }
 
 function abrirModal(id){
