@@ -1,20 +1,19 @@
 const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXtTi9Ap5ZNdHJrpEn7p2Dx07iAJBQH814jw4p6tBslh3fsCZhnTTExdVLPLPLK/pub?output=csv";
 
 
-let productos = [];
-let categorias = new Set();
-let visibles = 12;
+let productos=[];
+let categorias=new Set();
 
 fetch(url)
 .then(r=>r.text())
 .then(data=>{
-  const filas = data.split("\n").slice(1);
+  const filas=data.split("\n").slice(1);
 
   filas.forEach(f=>{
-    const c = f.split(",");
+    let c=f.split(",");
     if(c.length<8) return;
 
-    let p = {
+    let p={
       categoria:c[1],
       nombre:c[2],
       promocion:c[3],
@@ -30,13 +29,12 @@ fetch(url)
   });
 
   renderMenu();
-  render();
-  renderOfertas();
+  render(productos);
 });
 
 /* MENU */
 function renderMenu(){
-  let html = `<button onclick="filtrar('all')">Todos</button>`;
+  let html="";
   categorias.forEach(c=>{
     html+=`<button onclick="filtrar('${c}')">${c}</button>`;
   });
@@ -47,20 +45,16 @@ function toggleMenu(){
   document.getElementById("menu").classList.toggle("active");
 }
 
-/* OFERTAS */
-function renderOfertas(){
-  let html="";
-  productos.filter(p=>p.promocion==="no").slice(0,5).forEach(p=>{
-    let img=p.imagen.split("|")[0];
-    html+=`<div class="oferta-card"><img src="${img}"></div>`;
-  });
-  document.getElementById("ofertas").innerHTML=html;
+/* FILTRO */
+function filtrar(cat){
+  let f=productos.filter(p=>p.categoria===cat);
+  render(f);
 }
 
-/* PRODUCTOS */
-function render(){
+/* RENDER */
+function render(lista){
   let html="";
-  productos.slice(0,visibles).forEach(p=>{
+  lista.forEach(p=>{
     let img=p.imagen.split("|")[0];
 
     html+=`
@@ -77,9 +71,8 @@ function render(){
         }
 
         <div class="btn-group">
-          <button class="btn-mini" onclick="verDesc('${p.descripcion}')">Info</button>
-          ${p.obsequio?`<button class="btn-gift" onclick="verGift('${p.obsequio}')">🎁</button>`:""}
-          <a class="btn-wsp" href="https://wa.me/51921891070?text=${p.nombre}">💬</a>
+          <button onclick="verDesc('${p.descripcion}')">Info</button>
+          ${p.obsequio?`<button onclick="verGift('${p.obsequio}')">🎁</button>`:""}
         </div>
       </div>
     </div>`;
@@ -91,17 +84,9 @@ function render(){
 /* BUSCAR */
 document.getElementById("buscador").addEventListener("input",e=>{
   let t=e.target.value.toLowerCase();
-  renderLista(productos.filter(p=>p.nombre.toLowerCase().includes(t)));
+  let f=productos.filter(p=>p.nombre.toLowerCase().includes(t));
+  render(f);
 });
-
-function renderLista(lista){
-  let html="";
-  lista.forEach(p=>{
-    let img=p.imagen.split("|")[0];
-    html+=`<div class="card"><img src="${img}"><b>${p.nombre}</b></div>`;
-  });
-  document.getElementById("productos").innerHTML=html;
-}
 
 /* MODALES */
 function verImagenes(imgs){
