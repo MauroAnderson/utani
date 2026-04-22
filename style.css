@@ -1,126 +1,72 @@
 body {
   font-family: 'Segoe UI';
-  margin: 0;
-  background: #0f172a;
-  color: white;
+  margin:0;
+  background:#0f172a;
+  color:white;
 }
 
-/* HEADER */
 header {
-  background: linear-gradient(90deg,#0d6efd,#6610f2);
-  padding: 12px;
-  text-align: center;
-  font-size: 18px;
-  letter-spacing: 1px;
+  background:linear-gradient(90deg,#0d6efd,#6610f2);
+  padding:12px;
+  text-align:center;
+  font-size:18px;
 }
 
-/* BUSCADOR */
 #buscador {
-  width: 85%;
-  margin: 8px auto;
-  display: block;
-  padding: 6px 10px;
-  border-radius: 20px;
-  border: none;
-  font-size: 12px;
-  background: #1e293b;
-  color: white;
-  opacity: 0.8;
-}
-
-#buscador:focus {
-  outline: none;
-  opacity: 1;
-  background: #273549;
-}
-
-/* CATEGORÍAS */
-#filtros {
-  display: flex;
-  overflow-x: auto;
-  gap: 8px;
-  padding: 10px;
-}
-
-.filtro-btn {
+  width:85%;
+  margin:8px auto;
+  display:block;
+  padding:6px;
+  border-radius:20px;
+  border:none;
   background:#1e293b;
   color:white;
-  border:none;
-  padding:5px 10px;
-  border-radius:20px;
-  font-size:11px;
 }
 
-/* GRID */
 #productos {
   display:grid;
-  grid-template-columns: repeat(3,1fr);
-  gap:8px;
+  grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
+  gap:12px;
   padding:10px;
 }
 
-@media(min-width:768px){
-  #productos { grid-template-columns: repeat(4,1fr);}
-}
-@media(min-width:1024px){
-  #productos { grid-template-columns: repeat(5,1fr);}
-}
-
-/* CARD */
 .card {
   background:#1e293b;
-  border-radius:10px;
+  border-radius:12px;
   overflow:hidden;
-  position:relative;
-  transition:0.2s;
+  transition:0.3s;
 }
 
 .card:hover {
-  transform:scale(1.05);
+  transform: translateY(-5px);
 }
 
-/* IMAGEN */
 .card img {
   width:100%;
-  height:160px;
+  height:150px;
   object-fit:cover;
 }
 
-/* BADGE */
-.badge {
-  position:absolute;
-  top:6px;
-  left:6px;
-  background:red;
-  padding:3px 6px;
-  font-size:10px;
-  border-radius:4px;
-}
-
-/* CONTENIDO */
 .card-body {
   padding:8px;
 }
 
 .nombre {
   font-size:12px;
-  font-weight:600;
+  font-weight:bold;
 }
 
-/* PRECIOS */
 .precio {
-  text-decoration: line-through;
-  color:#666;
+  text-decoration:line-through;
+  color:#888;
   font-size:11px;
 }
 
 .oferta {
   color:#00ff88;
   font-weight:bold;
-  font-size:15px;
 }
 
-/* BOTONES */
 .btn-group {
   display:flex;
   justify-content:space-between;
@@ -130,27 +76,45 @@ header {
 .btn-mini {
   background:#0dcaf0;
   border:none;
-  padding:3px 5px;
+  padding:3px;
   border-radius:5px;
-  font-size:10px;
+}
+
+.btn-gift {
+  background:#ff4d6d;
+  border:none;
+  padding:3px;
+  border-radius:5px;
+  color:white;
 }
 
 .btn-wsp {
   background:#25D366;
-  border:none;
-  padding:3px 6px;
+  padding:3px;
   border-radius:5px;
-  font-size:10px;
   color:white;
   text-decoration:none;
+}
+
+/* BOTON LOAD MORE */
+#loadMore {
+  text-align:center;
+  padding:15px;
+}
+
+#loadMore button {
+  background:#6610f2;
+  color:white;
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  cursor:pointer;
 }
 
 /* MODAL */
 .modal {
   display:none;
   position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:100%;
   background:black;
@@ -160,7 +124,7 @@ header {
 
 .modal-content {
   background:#1e293b;
-  padding:25px 15px 15px;
+  padding:20px;
   border-radius:10px;
   max-width:90%;
   position:relative;
@@ -170,9 +134,9 @@ header {
   position:absolute;
   top:8px;
   right:8px;
-  width:26px;
-  height:26px;
-  background:rgba(0,0,0,0.6);
+  background:red;
+  width:25px;
+  height:25px;
   border-radius:50%;
   display:flex;
   align-items:center;
@@ -180,13 +144,6 @@ header {
   cursor:pointer;
 }
 
-/* PAGINACIÓN */
-#paginacion {
-  text-align:center;
-  padding:10px;
-}
-
-/* WHATSAPP */
 #wsp-float {
   position:fixed;
   bottom:15px;
