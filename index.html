@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UTANI STORE</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UTANI STORE</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -14,10 +14,12 @@
 <input type="text" id="buscador" placeholder="Buscar...">
 
 <div id="filtros"></div>
-<div id="productos"></div>
-<div id="paginacion"></div>
 
-<!-- MODAL IMAGEN -->
+<div id="productos"></div>
+
+<div id="loadMore"></div>
+
+<!-- MODALES -->
 <div id="modalImg" class="modal">
   <div class="modal-content">
     <div class="close" onclick="cerrarModal('modalImg')">✖</div>
@@ -25,11 +27,17 @@
   </div>
 </div>
 
-<!-- MODAL DESCRIPCIÓN -->
 <div id="modalDesc" class="modal">
   <div class="modal-content">
     <div class="close" onclick="cerrarModal('modalDesc')">✖</div>
     <div id="contenidoDesc"></div>
+  </div>
+</div>
+
+<div id="modalGift" class="modal">
+  <div class="modal-content">
+    <div class="close" onclick="cerrarModal('modalGift')">✖</div>
+    <div id="contenidoGift"></div>
   </div>
 </div>
 
