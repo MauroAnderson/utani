@@ -9,48 +9,40 @@
 
 <body>
 
-<header>
-  <div class="topbar">
-    <div class="menu-btn" onclick="toggleMenu()">☰</div>
-    <input type="text" id="buscador" placeholder="Buscar...">
-  </div>
+<header class="topbar">
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <input type="text" id="buscador" placeholder="Buscar...">
 </header>
 
-<!-- MENU LATERAL -->
+<!-- MENU -->
 <div id="menu" class="menu"></div>
-
-<!-- OFERTAS -->
-<div id="ofertas"></div>
 
 <!-- PRODUCTOS -->
 <div id="productos"></div>
 
-<!-- BOTON LOAD -->
-<div id="loadMore"></div>
-
 <!-- MODALES -->
 <div id="modalImg" class="modal">
   <div class="modal-content">
-    <div class="close" onclick="cerrarModal('modalImg')">✖</div>
+    <span class="close" onclick="cerrarModal('modalImg')">✖</span>
     <div id="galeria"></div>
   </div>
 </div>
 
 <div id="modalDesc" class="modal">
   <div class="modal-content">
-    <div class="close" onclick="cerrarModal('modalDesc')">✖</div>
+    <span class="close" onclick="cerrarModal('modalDesc')">✖</span>
     <div id="contenidoDesc"></div>
   </div>
 </div>
 
 <div id="modalGift" class="modal">
   <div class="modal-content">
-    <div class="close" onclick="cerrarModal('modalGift')">✖</div>
+    <span class="close" onclick="cerrarModal('modalGift')">✖</span>
     <div id="contenidoGift"></div>
   </div>
 </div>
 
-<a id="wsp-float" href="https://wa.me/51921891070" target="_blank">💬</a>
+<a id="wsp" href="https://wa.me/51921891070" target="_blank">💬</a>
 
 <script src="app.js"></script>
 </body>
