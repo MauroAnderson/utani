@@ -8,14 +8,13 @@ body{
 /* HEADER */
 .topbar{
   background:linear-gradient(90deg,#1e3a8a,#4c1d95);
-  padding:10px 12px;
+  padding:10px;
 }
 .header-content{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
-.brand{ font-weight:600; }
 
 .btn-refresh{
   background:#1f2937;
@@ -24,23 +23,13 @@ body{
   border-radius:8px;
   padding:6px 10px;
   font-size:12px;
-  cursor:pointer;
 }
-
-/* CONTENIDO */
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:10px;
-}
-.titulo{text-align:center;margin:8px 0;font-weight:600;}
-.mensaje{text-align:center;margin:12px 0;}
 
 /* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:12px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
 }
 
 /* CARD */
@@ -48,109 +37,95 @@ body{
   background:#1e293b;
   border-radius:12px;
   overflow:hidden;
+  position:relative; /* 🔥 IMPORTANTE PARA EL BADGE */
 }
+
 .card-img{
-  height:140px;
+  height:150px;
   background:white;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
 }
 .card-img img{
   max-width:100%;
   max-height:100%;
   object-fit:contain;
-  cursor:pointer;
 }
-.card-body{ padding:8px 10px; }
+
+.card-body{padding:10px;}
 
 .nombre{
-  font-size:13px;
+  font-size:14px;
   font-weight:600;
-  line-height:1.3;
-  min-height:32px;
 }
 
 /* PRECIOS */
 .precio-old{
   text-decoration:line-through;
-  color:#9aa4c7;
-  font-size:11px;
-}
-.precio{
-  display:inline-block;
-  background:#e2e8f0;
-  color:#111;
-  padding:3px 8px;
-  border-radius:999px;
   font-size:12px;
-  margin-top:4px;
+  color:#aaa;
 }
 
-/* BADGE */
+.precio{
+  background:#e2e8f0;
+  color:black;
+  padding:4px 8px;
+  border-radius:10px;
+  display:inline-block;
+  margin-top:5px;
+}
+
+/* BADGE CORRECTO */
 .badge{
   position:absolute;
-  top:8px;
-  left:8px;
+  top:10px;
+  left:10px;
   background:#dc2626;
-  padding:3px 6px;
+  padding:4px 8px;
   border-radius:6px;
-  font-size:10px;
+  font-size:11px;
+  z-index:2;
 }
 
-/* BOTONES (UNA FILA, NO SE ROMPEN) */
+/* BOTONES (VOLVEMOS A TAMAÑO NORMAL) */
 .actions{
   display:flex;
-  flex-wrap:nowrap;           /* 🔥 no saltan de línea */
   gap:6px;
   margin-top:8px;
 }
 
 .btn{
   flex:1;
-  min-width:0;                /* 🔥 evita desbordes */
   border:none;
   border-radius:8px;
-  padding:5px 6px;
-  font-size:11px;             /* 🔥 compacto */
-  line-height:1.1;
+  padding:6px;
+  font-size:12px;
   cursor:pointer;
-  color:#fff;
+  color:white;
   text-align:center;
-  white-space:nowrap;         /* 🔥 evita 2 filas de texto */
-  overflow:hidden;
-  text-overflow:ellipsis;     /* 🔥 si no cabe, corta con ... */
 }
 
-.btn.secondary{ background:#3b82f6; }   /* azul suave */
-.btn.gift{ background:#8b5cf6; }        /* morado suave */
-.btn.wsp{
-  background:#16a34a;                  /* verde suave */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;                /* 🔥 sin subrayado */
-}
+.btn.secondary{ background:#3b82f6; }
+.btn.gift{ background:#8b5cf6; }
+.btn.wsp{ background:#16a34a; }
 
 a{ text-decoration:none; }
 
 /* TOTAL */
 .total{
   text-align:center;
-  margin:14px 0;
-  font-weight:700;
+  margin:15px;
+  font-weight:bold;
 }
 
 /* CONFIRMAR */
 .btn.confirmar{
   display:block;
-  margin:8px auto 18px;
+  margin:10px auto;
   background:#1f2937;
-  color:#fff;
-  padding:9px 16px;
+  padding:10px 20px;
   border-radius:10px;
-  font-size:13px;
-  border:none;
 }
 
 /* MODAL */
@@ -162,29 +137,24 @@ a{ text-decoration:none; }
   justify-content:center;
   align-items:center;
 }
+
 .modal-box{
   background:#1e293b;
   padding:20px;
-  padding-top:40px; /* espacio para ✖ */
-  border-radius:12px;
+  padding-top:40px;
+  border-radius:10px;
   width:90%;
-  max-width:360px;
+  max-width:350px;
   position:relative;
 }
+
 .cerrar{
   position:absolute;
   top:10px;
-  right:12px;
-  background:#111827;
-  color:#fff;
+  right:10px;
+  background:#111;
+  color:white;
   border:none;
-  border-radius:8px;
+  border-radius:6px;
   padding:4px 8px;
-  cursor:pointer;
-}
-.modal img{ width:100%; }
-
-/* AJUSTE ESCRITORIO: mantiene una sola fila */
-@media (min-width:768px){
-  .btn{ font-size:11px; padding:5px 6px; }
 }
