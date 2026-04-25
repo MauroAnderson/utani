@@ -154,3 +154,29 @@ function enviarCotizacion(){
 
   window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`,"_blank");
 }
+
+function actualizarPagina(){
+  productos = [];
+  fetch(url)
+    .then(r => r.text())
+    .then(data => {
+      const filas = data.split("\n").slice(1);
+
+      filas.forEach(c=>{
+        let col=c.split(",");
+        if(col.length<8)return;
+
+        productos.push({
+          cliente:col[0].trim(),
+          nombre:col[2].trim(),
+          precio:col[3].trim(),
+          oferta:col[4].trim(),
+          descripcion:col[5].trim(),
+          imagen:col[6].trim(),
+          obsequio:col[7].trim()
+        });
+      });
+
+      iniciar();
+    });
+}
