@@ -102,7 +102,7 @@ function render(lista){
             `<button class="btn gift" onclick="verGift('${p.obsequio}')">🎁 Obsequio</button>`
           :''}
 
-          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">🟢 WhatsApp</a>
+          <a class="btn wsp" href="https://wa.me/${numero}?text=${generarMensajeProducto(p)}" target="_blank"> 🟢 WhatsApp </a>
         </div>
 
       </div>
@@ -238,6 +238,45 @@ function parseCSVLine(line){
 
   result.push(current);
   return result;
+}
+
+function enviarCotizacion(){
+  const cliente = getCliente();
+
+  const lista = productos.filter(p =>
+    p.cliente.toLowerCase() === cliente.toLowerCase()
+  );
+
+  let mensaje = `Hola, deseo confirmar la cotización:\n\n`;
+
+  let total = 0;
+
+  lista.forEach((p,i)=>{
+    let precio = p.oferta && Number(p.oferta) < Number(p.precio)
+      ? Number(p.oferta)
+      : Number(p.precio);
+
+    total += precio;
+
+    mensaje += `${i+1}. ${p.nombre}\n`;
+    mensaje += `   S/ ${precio.toFixed(2)}\n\n`;
+  });
+
+  mensaje += `Total: S/ ${total.toFixed(2)}`;
+
+  window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`);
+}
+
+function generarMensajeProducto(p){
+  let precio = p.oferta && Number(p.oferta) < Number(p.precio)
+    ? p.oferta
+    : p.precio;
+
+  let mensaje = `Hola, estoy interesado en:\n\n` +
+                `${p.nombre}\n` +
+                `Precio: S/ ${precio}`;
+
+  return encodeURIComponent(mensaje);
 }
 
 function enviarCotizacion(){
