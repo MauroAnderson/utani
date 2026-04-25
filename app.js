@@ -22,7 +22,7 @@ function cargarDatos(){
 
     filas.forEach(c=>{
       let col = c.split(",");
-      if(col.length<8) return;
+      if(col.length < 8) return;
 
       productos.push({
         cliente:col[0].trim(),
@@ -36,7 +36,7 @@ function cargarDatos(){
     });
 
     iniciar();
-    cargando=false;
+    cargando = false;
   });
 }
 
@@ -45,7 +45,7 @@ function actualizarPagina(){
 }
 
 function num(v){
-  let n=Number(v);
+  let n = Number(v);
   return isNaN(n)?0:n;
 }
 
@@ -53,7 +53,7 @@ function iniciar(){
   const cliente = getCliente();
 
   if(!cliente){
-    document.getElementById("mensaje").innerHTML="Sin cliente";
+    document.getElementById("tituloCliente").innerHTML="Sin cliente";
     return;
   }
 
@@ -61,23 +61,25 @@ function iniciar(){
     p.cliente.toLowerCase() === cliente.toLowerCase()
   );
 
+  document.getElementById("tituloCliente").innerHTML =
+    `Cotización para ${cliente}`;
+
   render(lista);
+  renderTotal(lista);
 }
 
 function render(lista){
-  let html="";
+  let html = "";
 
   lista.forEach(p=>{
-    /* 🔥 LIMPIEZA DE IMAGEN */
     let img = p.imagen.split("|")[0].trim();
+    let tieneOferta = p.oferta && p.oferta !== p.precio;
+    let precioFinal = num(p.oferta || p.precio);
 
-    let tieneOferta = p.oferta && p.oferta!=="0" && p.oferta!==p.precio;
-    let precioFinal = num(p.oferta||p.precio);
-
-    html+=`
+    html += `
     <div class="card">
 
-      ${tieneOferta?`<div class="badge">OFERTA</div>`:''}
+      ${tieneOferta ? `<div class="badge">OFERTA</div>` : ''}
 
       <div class="card-img">
         <img src="${img}">
@@ -94,12 +96,26 @@ function render(lista){
         }
 
         <div class="actions">
-          <button class="btn secondary" onclick="verDesc('${p.descripcion}')">Detalle</button>
 
-          ${p.obsequio?`<button class="btn gift">🎁</button>`:''}
+          <button class="btn info"
+            onclick="verDesc('${p.descripcion}')">
+            ℹ Detalle
+          </button>
 
-          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">WhatsApp</a>
+          ${p.obsequio ? `
+            <button class="btn gift">
+              🎁 Obsequio
+            </button>
+          ` : ''}
+
+          <a class="btn wsp"
+             href="https://wa.me/${numero}"
+             target="_blank">
+             🟢 WhatsApp
+          </a>
+
         </div>
+
       </div>
     </div>`;
   });
@@ -107,14 +123,27 @@ function render(lista){
   document.getElementById("productos").innerHTML = html;
 }
 
+function renderTotal(lista){
+  let total = lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
+
+  document.getElementById("total").innerHTML =
+    `Total: S/ ${total.toFixed(2)}`;
+}
+
 function verDesc(texto){
-  let lista = texto.split("|").map(t=>`<div>✔ ${t.trim()}</div>`).join("");
+  let lista = texto.split("|")
+    .map(t=>`<div>✔ ${t.trim()}</div>`).join("");
+
   document.getElementById("contenidoModal").innerHTML = lista;
   document.getElementById("modal").style.display="flex";
 }
 
 function cerrarModal(){
   document.getElementById("modal").style.display="none";
+}
+
+function enviarCotizacion(){
+  alert("Cotización lista para enviar");
 }
 
 cargarDatos();
