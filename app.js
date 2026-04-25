@@ -112,11 +112,7 @@ function render(lista){
             }
           </div>
 
-          ${
-            p.obsequio
-            ? `<div class="gift-row">🎁 ${p.obsequio} — S/ 0</div>`
-            : ``
-          }
+         
         </div>
       </div>
     `;
