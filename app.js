@@ -26,7 +26,7 @@ fetch(url)
     iniciar();
   });
 
-/* CSV ROBUSTO */
+/* CSV robusto */
 function parseCSV(text){
   const rows=[]; let current=''; let inside=false; let row=[];
   for(let i=0;i<text.length;i++){
@@ -40,23 +40,22 @@ function parseCSV(text){
   return rows;
 }
 
-/* ===================== */
+/* helpers */
 function getCliente(){
   return new URLSearchParams(window.location.search).get("cliente");
 }
-
 function num(v){
   let n = Number(v);
   return isNaN(n)?0:n;
 }
 
-/* ===================== */
+/* init */
 function iniciar(){
   const cliente = getCliente();
 
   if(!cliente){
     document.getElementById("mensaje").innerHTML =
-      "⚠ Cotización personalizada";
+      "⚠️ Cotización personalizada";
     return;
   }
 
@@ -71,12 +70,11 @@ function iniciar(){
   renderTotal(lista);
 }
 
-/* ===================== */
+/* render */
 function render(lista){
   let html="";
 
   lista.forEach(p=>{
-
     let imgs = p.imagen.split("|").map(i=>i.trim());
     let img = imgs[0];
 
@@ -108,7 +106,6 @@ function render(lista){
         }
 
         <div class="actions">
-
           <button class="btn secondary"
             onclick="verDesc('${escapeHtml(p.descripcion)}')">
             ℹ Detalle
@@ -128,7 +125,6 @@ function render(lista){
              target="_blank">
              🟢 WhatsApp
           </a>
-
         </div>
       </div>
     </div>`;
@@ -137,49 +133,44 @@ function render(lista){
   document.getElementById("productos").innerHTML = html;
 }
 
-/* ===================== */
+/* total */
 function renderTotal(lista){
   let total = lista.reduce((acc,p)=> acc + num(p.oferta || p.precio),0);
-
   document.getElementById("total").innerHTML =
     `💰 Total: S/ ${total.toFixed(2)}`;
 }
 
-/* ===================== */
+/* modal */
 function abrirModal(html){
   document.getElementById("contenidoModal").innerHTML = html;
   document.getElementById("modal").style.display="flex";
 }
-
 function cerrarModal(){
   document.getElementById("modal").style.display="none";
 }
 
-/* IMAGENES */
+/* multi imagen */
 function verImagenes(imgs){
   let lista = imgs.split("|");
-
   let html = lista.map(i =>
-    `<img src="${i.trim()}" style="width:100%;border-radius:10px;">`
+    `<img src="${i.trim()}">`
   ).join("");
-
   abrirModal(html);
 }
 
-/* DESC */
+/* descripción */
 function verDesc(texto){
   let lista = texto.split("|")
     .map(t=>`<li>${t.trim()}</li>`).join("");
-
-  abrirModal(`<ul style="font-size:13px">${lista}</ul>`);
+  abrirModal(`<ul>${lista}</ul>`);
 }
 
-/* OBSEQUIO */
+/* obsequio */
 function verGift(texto){
   abrirModal(`<p>🎁 ${texto}</p>`);
 }
 
-/* ===================== */
+/* seguridad */
 function escapeHtml(str){
   return (str||"")
     .replace(/&/g,"&amp;")
