@@ -11,15 +11,15 @@ function getCliente(){
 }
 
 function cargarDatos(){
-  productos = [];
+  productos=[];
 
   fetch(url)
   .then(r=>r.text())
   .then(data=>{
-    const filas = data.split("\n").slice(1);
+    const filas=data.split("\n").slice(1);
 
     filas.forEach(c=>{
-      let col = c.split(",");
+      let col=c.split(",");
       if(col.length<8)return;
 
       productos.push({
@@ -78,9 +78,9 @@ function render(lista){
         <div class="precio">S/ ${precio.toFixed(2)}</div>
 
         <div class="actions">
-          <button class="btn info" onclick="verDesc('${p.descripcion}')">ℹ</button>
-          ${p.obsequio?`<button class="btn gift">🎁</button>`:''}
-          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">🟢</a>
+          <button class="btn info" onclick="verDesc('${p.descripcion}')">ℹ Detalle</button>
+          ${p.obsequio?`<button class="btn gift">🎁 Obsequio</button>`:''}
+          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">🟢 WhatsApp</a>
         </div>
 
       </div>
@@ -120,9 +120,10 @@ function irA(i){
   mostrarImagen();
 }
 
-/* DESC */
 function verDesc(texto){
-  let lista=texto.split("|").map(t=>`<div>✔ ${t}</div>`).join("");
+  let lista=texto.split("|")
+    .map(t=>`<div style="margin-bottom:6px;">✔ ${t}</div>`).join("");
+
   document.getElementById("contenidoModal").innerHTML=lista;
   document.getElementById("modal").style.display="flex";
 }
