@@ -49,7 +49,6 @@ body{
 }
 
 .card-body{padding:10px;}
-
 .nombre{font-size:14px;}
 
 .precio-old{
@@ -84,18 +83,26 @@ body{
   margin-top:8px;
 }
 
+/* BOTONES BLANCOS MINIMALISTAS */
 .btn{
   flex:1;
   border:none;
-  border-radius:6px;
-  padding:6px;
-  font-size:12px;
+  border-radius:8px;
+  padding:5px;
+  font-size:11px;
   cursor:pointer;
+  background:white;
+  color:#111;
+  transition:0.2s;
 }
 
-.btn.secondary{background:#cfe8ff;}
-.btn.gift{background:#ffd6e1;}
-.btn.wsp{background:#25D366;color:white;}
+.btn:hover{
+  background:#f1f5f9;
+}
+
+.btn.wsp{ background:white; }
+.btn.gift{ background:white; }
+.btn.secondary{ background:white; }
 
 /* TOTAL */
 .total{
@@ -105,18 +112,17 @@ body{
   font-weight:bold;
 }
 
-/* BOTÓN FINAL */
+/* BOTÓN CONFIRMAR */
 .btn.confirmar{
   display:block;
   margin:10px auto 20px auto;
-  background:#25D366;
-  color:white;
-  padding:12px 20px;
+  background:white;
+  color:#111;
+  padding:8px 16px;
   border-radius:10px;
-  font-size:14px;
-  border:none;
-  width:90%;
-  max-width:300px;
+  font-size:13px;
+  border:1px solid #ddd;
+  width:fit-content;
 }
 
 /* MODAL */
