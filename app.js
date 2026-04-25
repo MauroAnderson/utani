@@ -5,12 +5,18 @@ const numero = "51921891070";
 let productos=[];
 let galeriaImgs=[];
 let indexActual=0;
+let cargando=false;
 
+/* CLIENTE */
 function getCliente(){
   return new URLSearchParams(window.location.search).get("cliente");
 }
 
+/* CARGA (SIN DUPLICADOS) */
 function cargarDatos(){
+  if(cargando) return;
+  cargando = true;
+
   productos=[];
 
   fetch(url)
@@ -34,6 +40,7 @@ function cargarDatos(){
     });
 
     iniciar();
+    cargando=false;
   });
 }
 
@@ -44,6 +51,7 @@ function num(v){
   return isNaN(n)?0:n;
 }
 
+/* INICIO */
 function iniciar(){
   const cliente=getCliente();
 
@@ -55,11 +63,13 @@ function iniciar(){
   renderTotal(lista);
 }
 
+/* RENDER */
 function render(lista){
   let html="";
 
   lista.forEach(p=>{
     let img=p.imagen.split("|")[0].trim();
+
     let precioNormal=num(p.precio);
     let precioOferta=num(p.oferta || p.precio);
     let tieneOferta = precioOferta < precioNormal;
@@ -78,10 +88,14 @@ function render(lista){
 
         ${
           tieneOferta
-          ? `<div style="text-decoration:line-through; font-size:12px; color:#aaa;">
-               S/ ${precioNormal.toFixed(2)}
-             </div>
-             <div class="precio">S/ ${precioOferta.toFixed(2)}</div>`
+          ? `<div style="display:flex; justify-content:center; gap:6px; align-items:center;">
+               <span style="text-decoration:line-through; font-size:12px; color:#aaa;">
+                 S/ ${precioNormal.toFixed(2)}
+               </span>
+               <span class="precio">
+                 S/ ${precioOferta.toFixed(2)}
+               </span>
+             </div>`
           : `<div class="precio">S/ ${precioNormal.toFixed(2)}</div>`
         }
 
@@ -114,6 +128,7 @@ function render(lista){
   document.getElementById("productos").innerHTML=html;
 }
 
+/* TOTAL */
 function renderTotal(lista){
   let total=lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
   document.getElementById("total").innerHTML=`Total: S/ ${total.toFixed(2)}`;
@@ -144,24 +159,23 @@ function irA(i){
   mostrarImagen();
 }
 
-/* 🔥 DETALLE (CORREGIDO) */
+/* DETALLE */
 function verDesc(texto){
   let lista=texto.split("|")
-    .map(t=>`<div style="margin-bottom:6px;">✔ ${t.trim()}</div>`)
-    .join("");
+    .map(t=>`<div style="margin-bottom:6px;">✔ ${t}</div>`).join("");
 
   document.getElementById("contenidoModal").innerHTML=`
-    <h3 style="margin-bottom:10px;">ℹ Detalle</h3>
+    <h3>ℹ Detalle</h3>
     ${lista}
   `;
 
   document.getElementById("modal").style.display="flex";
 }
 
-/* 🔥 OBSEQUIO (YA CORRECTO) */
+/* OBSEQUIO */
 function verGift(texto){
   document.getElementById("contenidoModal").innerHTML=`
-    <h3 style="margin-bottom:10px;">🎁 Obsequio</h3>
+    <h3>🎁 Obsequio</h3>
     <p>${texto}</p>
   `;
   document.getElementById("modal").style.display="flex";
