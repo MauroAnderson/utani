@@ -85,8 +85,9 @@ body{
 /* BOTONES */
 .actions{
   display:flex;
-  gap:5px;
+  gap:6px;
   margin-top:8px;
+  justify-content:space-between;
 }
 
 .btn{
@@ -97,12 +98,18 @@ body{
   font-size:11px;
   cursor:pointer;
   color:white;
+  text-align:center;
 }
 
 /* COLORES SUAVES */
-.btn.secondary{ background:#3b82f6; }   /* azul */
-.btn.gift{ background:#8b5cf6; }        /* morado */
-.btn.wsp{ background:#16a34a; }         /* verde */
+.btn.secondary{ background:#3b82f6; } 
+.btn.gift{ background:#8b5cf6; }      
+.btn.wsp{ 
+  background:#16a34a;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
 /* TOTAL */
 .total{
