@@ -12,7 +12,7 @@
 
 body{
   margin:0;
-  font-family:'Segoe UI', system-ui, -apple-system, Arial;
+  font-family:'Segoe UI', system-ui, Arial;
   background: radial-gradient(1200px 600px at 10% -10%, #1a2550 0%, transparent 60%),
               radial-gradient(1200px 600px at 110% 10%, #2a145a 0%, transparent 60%),
               var(--bg);
@@ -30,10 +30,7 @@ body{
   text-align:center;
   border-bottom:1px solid rgba(255,255,255,.08);
 }
-.brand{
-  font-weight:700;
-  letter-spacing:.5px;
-}
+.brand{ font-weight:700; letter-spacing:.5px; }
 
 /* CONTENIDO */
 .container{
@@ -56,7 +53,7 @@ body{
   font-size:14px;
 }
 
-/* GRID RESPONSIVE */
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
@@ -72,6 +69,7 @@ body{
   overflow:hidden;
   box-shadow: 0 10px 25px rgba(0,0,0,.25);
   transition: transform .18s ease, box-shadow .18s ease;
+  position:relative;
 }
 .card:hover{
   transform: translateY(-4px);
@@ -95,9 +93,7 @@ body{
 }
 
 /* BODY */
-.card-body{
-  padding:10px 12px 12px;
-}
+.card-body{ padding:10px 12px 12px; }
 
 .nombre{
   font-size:14px;
@@ -125,7 +121,8 @@ body{
 /* BADGE */
 .badge{
   position:absolute;
-  margin:10px;
+  top:10px;
+  left:10px;
   background:#ff4d4d;
   padding:3px 8px;
   border-radius:6px;
@@ -147,18 +144,20 @@ body{
   padding:6px 8px;
   font-size:12px;
   cursor:pointer;
-  color:#0b1220;
+  text-align:center;
   background:#e9eefc;
+  color:#0b1220;
 }
+
 .btn.secondary{ background:#cfe8ff; }
 .btn.gift{ background:#ffd6e1; }
-.btn:hover{ filter:brightness(1.05); }
-
-/* OBSEQUIO */
-.gift-row{
-  margin-top:6px;
-  font-size:12px;
-  color:#ffd6e1;
+.btn.wsp{
+  background:#25D366;
+  color:white;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 /* TOTAL */
@@ -188,7 +187,6 @@ body{
   border-radius:14px;
   padding:14px;
   position:relative;
-  box-shadow: 0 20px 40px rgba(0,0,0,.5);
 }
 .cerrar{
   position:absolute;
@@ -198,13 +196,8 @@ body{
   color:#ff6b6b;
   font-weight:700;
 }
-
-/* CONTENIDO MODAL */
-.modal img{
-  width:100%;
-  border-radius:10px;
-}
-.modal p{
+.modal img{ width:100%; border-radius:10px; }
+.modal p, .modal ul{
   font-size:13px;
   line-height:1.5;
   color:#dbe2ff;
