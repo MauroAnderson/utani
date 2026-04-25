@@ -83,20 +83,20 @@ function render(lista){
         <div class="nombre">${p.nombre}</div>
 
         ${tieneOferta
-            ? `<div class="precio-box">
-                  <div class="precio-old">
-                    S/ ${precioNormal.toFixed(2)}
-                  </div>
-                  <div class="precio-new">
-                    S/ ${precioOferta.toFixed(2)}
-                  </div>
-               </div>`
-            : `<div class="precio-box">
-                  <div class="precio-new">
-                    S/ ${precioNormal.toFixed(2)}
-                  </div>
-               </div>`
-          }
+        ? `<div class="precio-row">
+              <span class="precio-old">
+                S/ ${precioNormal.toFixed(2)}
+              </span>
+              <span class="precio-new">
+                S/ ${precioOferta.toFixed(2)}
+              </span>
+           </div>`
+        : `<div class="precio-row">
+              <span class="precio-new">
+                S/ ${precioNormal.toFixed(2)}
+              </span>
+           </div>`
+      }
 
         <div class="actions">
           <button class="btn info" onclick="verDesc('${p.descripcion}')">
