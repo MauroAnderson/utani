@@ -26,6 +26,7 @@ fetch(url)
   iniciar();
 });
 
+/* CSV */
 function parseCSV(text){
   const rows=[];let current='';let inside=false;let row=[];
   for(let i=0;i<text.length;i++){
@@ -64,6 +65,7 @@ function iniciar(){
   renderTotal(lista);
 }
 
+/* RENDER */
 function render(lista){
   let html="";
 
@@ -93,8 +95,27 @@ function render(lista){
         }
 
         <div class="actions">
-          <button class="btn secondary" onclick="verDesc('${p.descripcion}')">ℹ</button>
-          ${p.obsequio?`<button class="btn gift" onclick="verGift('${p.obsequio}')">🎁</button>`:''}
+
+          <button class="btn secondary"
+            onclick="verDesc('${p.descripcion}')">
+            ℹ
+          </button>
+
+          ${p.obsequio?`
+            <button class="btn gift"
+              onclick="verGift('${p.obsequio}')">
+              🎁
+            </button>
+          `:''}
+
+          <a class="btn wsp"
+             href="https://wa.me/${numero}?text=${encodeURIComponent(
+               `Hola, me interesa:\n${p.nombre}\nPrecio: S/ ${precioFinal.toFixed(2)}`
+             )}"
+             target="_blank">
+             🟢
+          </a>
+
         </div>
       </div>
     </div>`;
@@ -103,6 +124,7 @@ function render(lista){
   document.getElementById("productos").innerHTML=html;
 }
 
+/* TOTAL */
 function renderTotal(lista){
   let total=lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
   document.getElementById("total").innerHTML=`💰 Total: S/ ${total.toFixed(2)}`;
