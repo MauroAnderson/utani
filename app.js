@@ -1,98 +1,164 @@
 const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXtTi9Ap5ZNdHJrpEn7p2Dx07iAJBQH814jw4p6tBslh3fsCZhnTTExdVLPLPLK/pub?output=csv";
 
-let productos=[];
+let productos = [];
 
 fetch(url)
-.then(r=>r.text())
-.then(data=>{
-  const filas=data.split("\n").slice(1);
+  .then(r => r.text())
+  .then(data => {
+    const filas = data.split("\n").slice(1);
 
-  filas.forEach(f=>{
-    let c=f.split(",");
-    if(c.length<8) return;
+    filas.forEach(f => {
+      let c = f.split(",");
+      if (c.length < 8) return;
 
-    productos.push({
-      cliente:c[0],
-      nombre:c[2],
-      precio:c[3],
-      oferta:c[4],
-      descripcion:c[5],
-      imagen:c[6],
-      obsequio:c[7]||""
+      productos.push({
+        cliente: (c[0] || "").trim(),
+        nombre: (c[2] || "").trim(),
+        precio: (c[3] || "").trim(),
+        oferta: (c[4] || "").trim(),
+        descripcion: (c[5] || "").trim(),
+        imagen: (c[6] || "").trim(),
+        obsequio: (c[7] || "").trim()
+      });
     });
+
+    iniciar();
   });
 
-  iniciar();
-});
-
-/* CLIENTE */
+/* =========================
+   Helpers
+========================= */
 function getCliente(){
-  let params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search);
   return params.get("cliente");
 }
 
-/* INICIO */
+function num(v){
+  const n = Number(v);
+  return isNaN(n) ? 0 : n;
+}
+
+/* =========================
+   Init
+========================= */
 function iniciar(){
-  let cliente = getCliente();
+  const cliente = getCliente();
 
   if(!cliente){
     document.getElementById("mensaje").innerHTML =
-      "⚠️ Esta página es una cotización personalizada.<br>Solicita tu link al asesor.";
+      "⚠️ Esta es una cotización personalizada. Solicita tu link al asesor.";
     return;
   }
 
-  let lista = productos.filter(p =>
+  const lista = productos.filter(p =>
     p.cliente.toLowerCase() === cliente.toLowerCase()
   );
 
   document.getElementById("tituloCliente").innerHTML =
-    "🧾 Cotización para <b>"+cliente+"</b>";
+    `🧾 Cotización para <b>${cliente}</b>`;
 
   render(lista);
-  total(lista);
+  renderTotal(lista);
 }
 
-/* RENDER */
+/* =========================
+   Render
+========================= */
 function render(lista){
-  let html="";
+  let html = "";
 
-  lista.forEach(p=>{
+  lista.forEach(p => {
+    const img = (p.imagen.split("|")[0] || "").trim();
+
+    const tieneOferta = p.oferta && p.oferta !== "0" && p.oferta !== "";
+
     html += `
-    <div class="card">
-      <img src="${p.imagen}">
+      <div class="card">
+        ${tieneOferta ? `<div class="badge">OFERTA</div>` : ``}
 
-      <div class="nombre">${p.nombre}</div>
+        <div class="card-img">
+          <img src="${img}" alt="${p.nombre}"
+               onclick="verImagen('${img}')">
+        </div>
 
-      <div class="precio">S/ ${p.oferta || p.precio}</div>
+        <div class="card-body">
+          <div class="nombre">${p.nombre}</div>
 
-      <button class="btn" onclick="verDesc('${p.descripcion}')">Detalle</button>
+          ${
+            tieneOferta
+            ? `<div class="precio-old">S/ ${p.precio}</div>
+               <div class="precio">S/ ${p.oferta}</div>`
+            : `<div class="precio">S/ ${p.precio}</div>`
+          }
 
-      ${p.obsequio ? `
-        <div class="nombre">🎁 ${p.obsequio}</div>
-        <div class="precio">S/ 0</div>
-      ` : ""}
-    </div>`;
+          <div class="actions">
+            <button class="btn secondary"
+                    onclick="verDesc('${escapeHtml(p.descripcion)}')">
+              Detalle
+            </button>
+            ${p.obsequio
+              ? `<button class="btn gift"
+                   onclick="verGift('${escapeHtml(p.obsequio)}')">
+                   🎁
+                 </button>`
+              : ``}
+          </div>
+
+          ${p.obsequio
+            ? `<div class="gift-row">🎁 ${p.obsequio} — S/ 0</div>`
+            : ``}
+        </div>
+      </div>
+    `;
   });
 
-  document.getElementById("productos").innerHTML=html;
+  document.getElementById("productos").innerHTML = html;
 }
 
-/* TOTAL */
-function total(lista){
-  let suma = lista.reduce((acc,p)=>{
-    return acc + Number(p.oferta || p.precio);
-  },0);
+/* =========================
+   Total
+========================= */
+function renderTotal(lista){
+  const suma = lista.reduce((acc, p) => {
+    return acc + num(p.oferta || p.precio);
+  }, 0);
 
   document.getElementById("total").innerHTML =
-    "💰 Total: S/ " + suma;
+    `💰 Total: S/ ${suma}`;
 }
 
-/* MODAL */
-function verDesc(texto){
-  document.getElementById("contenidoModal").innerHTML = texto;
-  document.getElementById("modal").style.display="flex";
+/* =========================
+   Modal
+========================= */
+function abrirModal(html){
+  document.getElementById("contenidoModal").innerHTML = html;
+  document.getElementById("modal").style.display = "flex";
 }
 
 function cerrarModal(){
-  document.getElementById("modal").style.display="none";
+  document.getElementById("modal").style.display = "none";
+}
+
+function verImagen(img){
+  abrirModal(`<img src="${img}" alt="imagen">`);
+}
+
+function verDesc(texto){
+  abrirModal(`<p>${texto || "Sin descripción"}</p>`);
+}
+
+function verGift(texto){
+  abrirModal(`<p>🎁 ${texto}</p>`);
+}
+
+/* =========================
+   Seguridad básica (escapar texto)
+========================= */
+function escapeHtml(str){
+  return (str || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
