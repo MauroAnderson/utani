@@ -17,16 +17,8 @@ body{
   padding:10px;
 }
 
-.titulo{
-  text-align:center;
-  margin:10px;
-  font-weight:bold;
-}
-
-.mensaje{
-  text-align:center;
-  margin:20px;
-}
+.titulo{text-align:center;margin:10px;font-weight:bold;}
+.mensaje{text-align:center;margin:20px;}
 
 /* GRID */
 .grid{
@@ -103,6 +95,7 @@ body{
 
 .btn.secondary{background:#cfe8ff;}
 .btn.gift{background:#ffd6e1;}
+.btn.wsp{background:#25D366;color:white;}
 
 /* TOTAL */
 .total{
@@ -112,7 +105,7 @@ body{
   font-weight:bold;
 }
 
-/* BOTÓN CONFIRMAR */
+/* BOTÓN FINAL */
 .btn.confirmar{
   display:block;
   margin:10px auto 20px auto;
