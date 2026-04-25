@@ -1,140 +1,78 @@
 body{
   margin:0;
-  font-family:Arial;
+  font-family:'Segoe UI';
   background:#0f172a;
   color:white;
 }
 
-/* TOP */
+/* HEADER */
 .topbar{
-  display:flex;
-  gap:10px;
-  padding:10px;
-  background:#1e293b;
+  text-align:center;
+  padding:15px;
+  background:linear-gradient(90deg,#0d6efd,#6610f2);
 }
 
-.menu-btn{
-  font-size:20px;
-  background:none;
-  border:none;
-  color:white;
-}
-
-#buscador{
-  flex:1;
-  padding:6px;
-  border-radius:10px;
-  border:none;
-}
-
-/* MENU */
-.menu{
-  position:fixed;
-  left:-220px;
-  top:0;
-  width:200px;
-  height:100%;
-  background:#1e293b;
-  padding:10px;
-  transition:0.3s;
-}
-
-.menu.active{
-  left:0;
+/* TITULO CLIENTE */
+#tituloCliente{
+  text-align:center;
+  font-size:18px;
+  margin:10px;
+  font-weight:bold;
 }
 
 /* GRID */
 #productos{
   display:grid;
   grid-template-columns: repeat(2,1fr);
-  gap:10px;
+  gap:12px;
   padding:10px;
 }
 
-/* EN PC */
 @media(min-width:768px){
-  #productos{
-    grid-template-columns: repeat(3,1fr);
-  }
+  #productos{ grid-template-columns: repeat(3,1fr);}
 }
 
 /* CARD */
 .card{
-  background:#1e293b;
-  border-radius:10px;
-  overflow:hidden;
+  background:linear-gradient(135deg,#0d6efd,#6610f2);
+  border-radius:15px;
+  padding:10px;
 }
 
 .card img{
   width:100%;
-  height:160px;
-  object-fit:cover;
+  height:150px;
+  object-fit:contain;
+  background:white;
+  border-radius:10px;
 }
 
-.card-body{
-  padding:8px;
-}
-
-.precio{
-  text-decoration:line-through;
-  color:#888;
-}
-
-.oferta{
-  color:#00ff88;
+/* TEXTO */
+.nombre{
+  margin-top:5px;
   font-weight:bold;
 }
 
-/* BOTONES */
-.btn-group{
-  display:flex;
-  justify-content:space-between;
+/* PRECIOS */
+.precio-old{
+  text-decoration:line-through;
+  opacity:0.6;
+  font-size:12px;
 }
 
-button{
-  border:none;
-  padding:5px;
-  border-radius:5px;
-}
-
-/* MODAL */
-.modal{
-  display:none;
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.9);
-  justify-content:center;
-  align-items:center;
-}
-
-.modal-content{
-  background:#1e293b;
-  padding:20px;
+.precio{
+  background:white;
+  color:black;
+  display:inline-block;
+  padding:4px 8px;
   border-radius:10px;
-  max-width:90%;
-  position:relative;
+  font-weight:bold;
+  margin-top:5px;
 }
 
-.close{
-  position:absolute;
-  top:5px;
-  right:5px;
-  background:red;
-  width:25px;
-  height:25px;
-  border-radius:50%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-/* WHATSAPP */
-#wsp{
-  position:fixed;
-  bottom:15px;
-  right:15px;
-  background:#25D366;
-  padding:15px;
-  border-radius:50%;
+/* TOTAL */
+#total{
+  text-align:center;
+  font-size:18px;
+  margin:15px;
 }
