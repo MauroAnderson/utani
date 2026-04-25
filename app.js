@@ -3,9 +3,6 @@ const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXt
 const numero = "51921891070";
 
 let productos = [];
-let cargando = false;
-
-/* GALERÍA */
 let galeriaImgs = [];
 let indexActual = 0;
 
@@ -14,9 +11,6 @@ function getCliente(){
 }
 
 function cargarDatos(){
-  if(cargando) return;
-  cargando = true;
-
   productos = [];
 
   fetch(url)
@@ -26,7 +20,7 @@ function cargarDatos(){
 
     filas.forEach(c=>{
       let col = c.split(",");
-      if(col.length < 8) return;
+      if(col.length<8)return;
 
       productos.push({
         cliente:col[0].trim(),
@@ -40,7 +34,6 @@ function cargarDatos(){
     });
 
     iniciar();
-    cargando = false;
   });
 }
 
@@ -49,33 +42,32 @@ function actualizarPagina(){
 }
 
 function num(v){
-  let n = Number(v);
+  let n=Number(v);
   return isNaN(n)?0:n;
 }
 
 function iniciar(){
-  const cliente = getCliente();
+  const cliente=getCliente();
 
-  const lista = productos.filter(p =>
-    p.cliente.toLowerCase() === cliente.toLowerCase()
+  const lista=productos.filter(p =>
+    p.cliente.toLowerCase()===cliente.toLowerCase()
   );
 
   render(lista);
   renderTotal(lista);
 }
 
-/* RENDER */
 function render(lista){
-  let html = "";
+  let html="";
 
   lista.forEach(p=>{
-    let img = p.imagen.split("|")[0].trim();
-    let precioFinal = num(p.oferta || p.precio);
+    let img=p.imagen.split("|")[0].trim();
+    let precio=num(p.oferta||p.precio);
 
-    html += `
+    html+=`
     <div class="card">
 
-      ${p.oferta && p.oferta !== p.precio ? `<div class="badge">OFERTA</div>` : ''}
+      ${p.oferta && p.oferta!==p.precio ? `<div class="badge">OFERTA</div>` : ''}
 
       <div class="card-img">
         <img src="${img}" onclick="verImagenes('${p.imagen}')">
@@ -83,71 +75,55 @@ function render(lista){
 
       <div class="card-body">
         <div class="nombre">${p.nombre}</div>
-        <div class="precio">S/ ${precioFinal.toFixed(2)}</div>
+        <div class="precio">S/ ${precio.toFixed(2)}</div>
 
         <div class="actions">
-          <button class="btn info" onclick="verDesc('${p.descripcion}')">ℹ Detalle</button>
-          ${p.obsequio ? `<button class="btn gift">🎁 Obsequio</button>` : ''}
-          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">🟢 WhatsApp</a>
+          <button class="btn info" onclick="verDesc('${p.descripcion}')">ℹ</button>
+          ${p.obsequio?`<button class="btn gift">🎁</button>`:''}
+          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">🟢</a>
         </div>
 
       </div>
     </div>`;
   });
 
-  document.getElementById("productos").innerHTML = html;
+  document.getElementById("productos").innerHTML=html;
 }
 
-/* TOTAL */
 function renderTotal(lista){
-  let total = lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
-  document.getElementById("total").innerHTML = `Total: S/ ${total.toFixed(2)}`;
+  let total=lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
+  document.getElementById("total").innerHTML=`Total: S/ ${total.toFixed(2)}`;
 }
 
 /* GALERÍA */
 function verImagenes(imgs){
-  galeriaImgs = imgs.split("|").map(i=>i.trim());
-  indexActual = 0;
+  galeriaImgs=imgs.split("|").map(i=>i.trim());
+  indexActual=0;
   mostrarImagen();
 }
 
 function mostrarImagen(){
-  let dots = galeriaImgs.map((_,i)=>
+  let dots=galeriaImgs.map((_,i)=>
     `<div class="dot ${i===indexActual?'active':''}" onclick="irA(${i})"></div>`
   ).join("");
 
-  let html = `
+  document.getElementById("contenidoModal").innerHTML=`
     <img src="${galeriaImgs[indexActual]}">
     <div class="galeria-dots">${dots}</div>
-    <div style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
-      <button onclick="anterior()">⬅</button>
-      <button onclick="siguiente()">➡</button>
-    </div>
   `;
 
-  document.getElementById("contenidoModal").innerHTML = html;
   document.getElementById("modal").style.display="flex";
 }
 
-function siguiente(){
-  indexActual = (indexActual + 1) % galeriaImgs.length;
-  mostrarImagen();
-}
-
-function anterior(){
-  indexActual = (indexActual - 1 + galeriaImgs.length) % galeriaImgs.length;
-  mostrarImagen();
-}
-
 function irA(i){
-  indexActual = i;
+  indexActual=i;
   mostrarImagen();
 }
 
-/* DESCRIPCIÓN */
+/* DESC */
 function verDesc(texto){
-  let lista = texto.split("|").map(t=>`<div>✔ ${t}</div>`).join("");
-  document.getElementById("contenidoModal").innerHTML = lista;
+  let lista=texto.split("|").map(t=>`<div>✔ ${t}</div>`).join("");
+  document.getElementById("contenidoModal").innerHTML=lista;
   document.getElementById("modal").style.display="flex";
 }
 
