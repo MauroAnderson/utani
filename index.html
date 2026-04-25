@@ -10,18 +10,19 @@
 <body>
 
 <header class="topbar">
-  <h2>UTANI STORE</h2>
+  <div class="brand">UTANI STORE</div>
 </header>
 
-<div id="tituloCliente"></div>
+<main class="container">
+  <div id="tituloCliente" class="titulo"></div>
+  <div id="mensaje" class="mensaje"></div>
 
-<div id="mensaje"></div>
+  <div id="productos" class="grid"></div>
 
-<div id="productos"></div>
+  <div id="total" class="total"></div>
+</main>
 
-<div id="total"></div>
-
-<!-- MODAL -->
+<!-- MODAL (reutilizable para imagen y texto) -->
 <div id="modal" class="modal">
   <div class="modal-box">
     <span class="cerrar" onclick="cerrarModal()">✖</span>
