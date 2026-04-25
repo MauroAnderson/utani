@@ -112,9 +112,13 @@ function verImagenes(imgs){
 }
 
 function mostrarImagen(){
+  let dots = galeriaImgs.map((_,i)=>
+    `<div class="dot ${i===indexActual?'active':''}" onclick="irA(${i})"></div>`
+  ).join("");
+
   let html = `
     <img src="${galeriaImgs[indexActual]}">
-
+    <div class="galeria-dots">${dots}</div>
     <div style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
       <button onclick="anterior()">⬅</button>
       <button onclick="siguiente()">➡</button>
@@ -122,7 +126,7 @@ function mostrarImagen(){
   `;
 
   document.getElementById("contenidoModal").innerHTML = html;
-  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modal").style.display="flex";
 }
 
 function siguiente(){
@@ -135,11 +139,14 @@ function anterior(){
   mostrarImagen();
 }
 
+function irA(i){
+  indexActual = i;
+  mostrarImagen();
+}
+
 /* DESCRIPCIÓN */
 function verDesc(texto){
-  let lista = texto.split("|")
-    .map(t=>`<div>✔ ${t.trim()}</div>`).join("");
-
+  let lista = texto.split("|").map(t=>`<div>✔ ${t}</div>`).join("");
   document.getElementById("contenidoModal").innerHTML = lista;
   document.getElementById("modal").style.display="flex";
 }
