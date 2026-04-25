@@ -12,12 +12,11 @@ body{
   background:linear-gradient(90deg,#0d6efd,#6610f2);
 }
 
-/* TITULO CLIENTE */
-#tituloCliente{
+/* MENSAJE */
+#mensaje{
   text-align:center;
-  font-size:18px;
-  margin:10px;
-  font-weight:bold;
+  margin:20px;
+  font-size:14px;
 }
 
 /* GRID */
@@ -26,10 +25,6 @@ body{
   grid-template-columns: repeat(2,1fr);
   gap:12px;
   padding:10px;
-}
-
-@media(min-width:768px){
-  #productos{ grid-template-columns: repeat(3,1fr);}
 }
 
 /* CARD */
@@ -47,32 +42,51 @@ body{
   border-radius:10px;
 }
 
-/* TEXTO */
 .nombre{
+  font-size:13px;
   margin-top:5px;
-  font-weight:bold;
 }
 
 /* PRECIOS */
-.precio-old{
-  text-decoration:line-through;
-  opacity:0.6;
-  font-size:12px;
-}
-
 .precio{
   background:white;
   color:black;
-  display:inline-block;
   padding:4px 8px;
   border-radius:10px;
-  font-weight:bold;
+  display:inline-block;
   margin-top:5px;
 }
 
-/* TOTAL */
-#total{
-  text-align:center;
-  font-size:18px;
-  margin:15px;
+/* BOTONES */
+.btn{
+  margin-top:5px;
+  padding:5px;
+  border:none;
+  border-radius:6px;
+  font-size:11px;
+}
+
+/* MODAL BONITO */
+.modal{
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-box{
+  background:#1e293b;
+  padding:15px;
+  border-radius:10px;
+  width:80%;
+  max-width:300px;
+}
+
+.cerrar{
+  float:right;
+  cursor:pointer;
+  color:red;
 }
