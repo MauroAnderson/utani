@@ -87,7 +87,6 @@ body{
   display:flex;
   gap:6px;
   margin-top:8px;
-  justify-content:space-between;
 }
 
 .btn{
@@ -107,9 +106,13 @@ body{
 .btn.wsp{ 
   background:#16a34a;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
+  text-decoration:none;
 }
+
+/* quitar subrayado global */
+a{ text-decoration:none; }
 
 /* TOTAL */
 .total{
@@ -142,19 +145,28 @@ body{
 
 .modal-box{
   background:#1e293b;
-  padding:15px;
+  padding:20px;            /* más espacio interno */
+  padding-top:40px;        /* espacio arriba para el botón ✖ */
   border-radius:10px;
   width:90%;
-  max-width:350px;
+  max-width:360px;
   position:relative;
 }
 
+/* ✖ separado del contenido */
 .cerrar{
   position:absolute;
-  right:10px;
-  top:5px;
+  top:10px;
+  right:12px;
+  background:#111827;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  padding:4px 8px;
   cursor:pointer;
-  color:red;
+  font-size:12px;
+  opacity:.9;
 }
+.cerrar:hover{ opacity:1; }
 
-.modal img{width:100%;}
+.modal img{ width:100%; }
