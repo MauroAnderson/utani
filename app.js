@@ -1,5 +1,4 @@
 const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXtTi9Ap5ZNdHJrpEn7p2Dx07iAJBQH814jw4p6tBslh3fsCZhnTTExdVLPLPLK/pub?output=csv";
-
 const numero = "51921891070";
 
 let productos=[];
@@ -7,10 +6,12 @@ let galeriaImgs=[];
 let indexActual=0;
 let cargando=false;
 
+/* CLIENTE */
 function getCliente(){
   return new URLSearchParams(window.location.search).get("cliente");
 }
 
+/* CARGA */
 function cargarDatos(){
   if(cargando) return;
   cargando=true;
@@ -32,7 +33,7 @@ function cargarDatos(){
         precio:col[3].trim(),
         oferta:col[4].trim(),
         descripcion:col[5].trim(),
-        imagen:col[6].trim(),
+        imagen:(col[6] || "").replace(/"/g,"").trim(), // 🔥 FIX IMÁGENES
         obsequio:col[7].trim()
       });
     });
@@ -49,6 +50,7 @@ function num(v){
   return isNaN(n)?0:n;
 }
 
+/* INICIO */
 function iniciar(){
   const cliente=getCliente();
 
@@ -60,11 +62,12 @@ function iniciar(){
   renderTotal(lista);
 }
 
+/* RENDER */
 function render(lista){
   let html="";
 
   lista.forEach(p=>{
-    let img=p.imagen.split("|")[0].trim();
+    let img=p.imagen.split("|")[0];
 
     let precioNormal=num(p.precio);
     let precioOferta=num(p.oferta || p.precio);
@@ -84,33 +87,22 @@ function render(lista){
 
         ${tieneOferta
         ? `<div class="precio-row">
-              <span class="precio-old">
-                S/ ${precioNormal.toFixed(2)}
-              </span>
-              <span class="precio-new">
-                S/ ${precioOferta.toFixed(2)}
-              </span>
+              <span class="precio-old">S/ ${precioNormal.toFixed(2)}</span>
+              <span class="precio-new">S/ ${precioOferta.toFixed(2)}</span>
            </div>`
         : `<div class="precio-row">
-              <span class="precio-new">
-                S/ ${precioNormal.toFixed(2)}
-              </span>
+              <span class="precio-new">S/ ${precioNormal.toFixed(2)}</span>
            </div>`
       }
 
         <div class="actions">
-          <button class="btn info" onclick="verDesc('${p.descripcion}')">
-            ℹ Detalle
-          </button>
+          <button class="btn info" onclick="verDesc('${p.descripcion}')">ℹ Detalle</button>
 
           ${p.obsequio?
-            `<button class="btn gift" onclick="verGift('${p.obsequio}')">
-              🎁 Obsequio
-            </button>`:''}
+            `<button class="btn gift" onclick="verGift('${p.obsequio}')">🎁 Obsequio</button>`
+          :''}
 
-          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">
-            🟢 WhatsApp
-          </a>
+          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">🟢 WhatsApp</a>
         </div>
 
       </div>
@@ -120,58 +112,63 @@ function render(lista){
   document.getElementById("productos").innerHTML=html;
 }
 
+/* TOTAL */
 function renderTotal(lista){
   let total=lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
   document.getElementById("total").innerHTML=`Total: S/ ${total.toFixed(2)}`;
 }
 
-/* GALERÍA */
+/* GALERÍA (FIX REAL) */
 function verImagenes(imgs){
-  galeriaImgs=imgs.split("|").map(i=>i.trim());
-  indexActual=0;
-  mostrarImagen();
-}
-
-
-function mostrarImagen(){
-  let dots = galeriaImgs.map((_,i)=>
-    `<div class="dot ${i===indexActual?'active':''}" onclick="irA(${i})"></div>`
-  ).join("");
+  galeriaImgs = imgs.split("|").map(i=>i.trim()).filter(i=>i);
+  indexActual = 0;
 
   document.getElementById("contenidoModal").innerHTML=`
     <div class="galeria-container">
 
       <button class="nav prev" onclick="anterior()">❮</button>
 
-      <img id="imgGaleria" src="${galeriaImgs[indexActual]}">
+      <img id="imgGaleria">
 
       <button class="nav next" onclick="siguiente()">❯</button>
 
     </div>
 
-    <div class="galeria-dots">${dots}</div>
+    <div id="dots" class="galeria-dots"></div>
   `;
 
   document.getElementById("modal").style.display="flex";
 
-  activarSwipe(); // 🔥 activar gesto
+  actualizarGaleria();
+  activarSwipe();
+}
+
+function actualizarGaleria(){
+  document.getElementById("imgGaleria").src = galeriaImgs[indexActual];
+
+  let dots = galeriaImgs.map((_,i)=>
+    `<div class="dot ${i===indexActual?'active':''}" onclick="irA(${i})"></div>`
+  ).join("");
+
+  document.getElementById("dots").innerHTML = dots;
 }
 
 function siguiente(){
   indexActual = (indexActual + 1) % galeriaImgs.length;
-  mostrarImagen();
+  actualizarGaleria();
 }
 
 function anterior(){
   indexActual = (indexActual - 1 + galeriaImgs.length) % galeriaImgs.length;
-  mostrarImagen();
+  actualizarGaleria();
 }
 
 function irA(i){
   indexActual=i;
-  mostrarImagen();
+  actualizarGaleria();
 }
 
+/* SWIPE */
 function activarSwipe(){
   const img = document.getElementById("imgGaleria");
 
@@ -184,23 +181,20 @@ function activarSwipe(){
   img.addEventListener("touchend", e=>{
     let endX = e.changedTouches[0].clientX;
 
-    if(endX < startX - 50){
-      siguiente(); // desliza izquierda
-    }
-    else if(endX > startX + 50){
-      anterior(); // desliza derecha
-    }
+    if(endX < startX - 50) siguiente();
+    else if(endX > startX + 50) anterior();
   });
 }
+
 /* DETALLE */
 function verDesc(texto){
   let lista = texto.split("|")
     .map(t => `<div style="margin-bottom:6px;">✔ ${t.trim()}</div>`)
     .join("");
 
-  document.getElementById("contenidoModal").innerHTML = `
+  document.getElementById("contenidoModal").innerHTML=`
     <div class="modal-detalle">
-      <h3 style="margin-bottom:10px;">ℹ Detalle</h3>
+      <h3>ℹ Detalle</h3>
       ${lista}
     </div>
   `;
@@ -221,6 +215,7 @@ function cerrarModal(){
   document.getElementById("modal").style.display="none";
 }
 
+/* CSV */
 function parseCSVLine(line){
   const result = [];
   let current = "";
