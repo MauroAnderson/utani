@@ -2,15 +2,15 @@ const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXt
 
 const numero = "51921891070";
 
-let productos = [];
+let productos=[];
 
 fetch(url)
 .then(r=>r.text())
 .then(data=>{
-  const filas = parseCSV(data).slice(1);
+  const filas=parseCSV(data).slice(1);
 
   filas.forEach(c=>{
-    if(c.length<8) return;
+    if(c.length<8)return;
 
     productos.push({
       cliente:c[0].trim(),
@@ -26,12 +26,11 @@ fetch(url)
   iniciar();
 });
 
-/* CSV */
 function parseCSV(text){
-  const rows=[]; let current=''; let inside=false; let row=[];
+  const rows=[];let current='';let inside=false;let row=[];
   for(let i=0;i<text.length;i++){
     let c=text[i];
-    if(c=='"') inside=!inside;
+    if(c=='"')inside=!inside;
     else if(c==','&&!inside){row.push(current);current='';}
     else if(c=='\n'&&!inside){row.push(current);rows.push(row);row=[];current='';}
     else current+=c;
@@ -65,7 +64,6 @@ function iniciar(){
   renderTotal(lista);
 }
 
-/* RENDER */
 function render(lista){
   let html="";
 
@@ -105,7 +103,6 @@ function render(lista){
   document.getElementById("productos").innerHTML=html;
 }
 
-/* TOTAL */
 function renderTotal(lista){
   let total=lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
   document.getElementById("total").innerHTML=`💰 Total: S/ ${total.toFixed(2)}`;
@@ -134,7 +131,7 @@ function verGift(t){
   abrirModal(`<p>🎁 ${t}</p>`);
 }
 
-/* 🔥 WHATSAPP FINAL */
+/* WHATSAPP FINAL */
 function enviarCotizacion(){
   const cliente=getCliente();
   const lista=productos.filter(p=>p.cliente.toLowerCase()===cliente.toLowerCase());
