@@ -10,13 +10,11 @@ body{
   background:linear-gradient(90deg,#1e3a8a,#4c1d95);
   padding:10px;
 }
-
 .header-content{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
-
 .btn-refresh{
   background:#1f2937;
   color:white;
@@ -24,44 +22,41 @@ body{
   border-radius:8px;
   padding:6px 10px;
   font-size:12px;
-  cursor:pointer;
 }
 
 /* CONTENIDO */
 .container{
-  max-width:1100px;
+  max-width:1000px;
   margin:auto;
   padding:10px;
 }
 
-.titulo{
-  text-align:center;
-  margin:10px;
-  font-weight:bold;
-}
-
-/* GRID */
+/* GRID CORRECTO */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:14px;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:12px;
 }
 
 /* CARD */
 .card{
   background:#1e293b;
-  border-radius:12px;
+  border-radius:10px;
   overflow:hidden;
   position:relative;
 }
 
+/* 🔥 IMAGEN CONTROLADA */
 .card-img{
+  width:100%;
   height:150px;
-  background:white;
   display:flex;
   justify-content:center;
   align-items:center;
+  background:#fff;
+  overflow:hidden;
 }
+
 .card-img img{
   max-width:100%;
   max-height:100%;
@@ -69,65 +64,64 @@ body{
   cursor:pointer;
 }
 
+/* TEXTO */
 .card-body{
-  padding:10px;
+  padding:8px;
 }
 
 .nombre{
-  font-size:14px;
+  font-size:13px;
   font-weight:600;
 }
 
+/* PRECIO */
 .precio{
   background:#e2e8f0;
-  color:black;
-  padding:4px 8px;
-  border-radius:10px;
+  color:#000;
+  padding:3px 6px;
+  border-radius:8px;
+  font-size:12px;
+  margin-top:4px;
   display:inline-block;
-  margin-top:5px;
 }
 
+/* BADGE */
 .badge{
   position:absolute;
-  top:10px;
-  left:10px;
-  background:#dc2626;
-  padding:4px 8px;
-  border-radius:6px;
-  font-size:11px;
+  top:8px;
+  left:8px;
+  background:red;
+  padding:3px 6px;
+  border-radius:5px;
+  font-size:10px;
 }
 
-/* BOTONES COMPACTOS */
+/* BOTONES */
 .actions{
   display:flex;
-  gap:6px;
-  margin-top:8px;
+  gap:4px;
+  margin-top:6px;
 }
 
 .btn{
   flex:1;
+  font-size:10px;
+  padding:4px;
   border:none;
-  border-radius:8px;
-  padding:5px 6px;
-  font-size:11px;
-  cursor:pointer;
+  border-radius:6px;
   color:white;
-  text-align:center;
 }
 
-.btn.info{ background:#3b82f6; }
-.btn.gift{ background:#8b5cf6; }
-.btn.wsp{
-  background:#16a34a;
-  text-decoration:none;
-}
+.btn.info{background:#3b82f6;}
+.btn.gift{background:#8b5cf6;}
+.btn.wsp{background:#16a34a; text-decoration:none;}
 
-a{ text-decoration:none; }
+a{text-decoration:none;}
 
 /* TOTAL */
 .total{
   text-align:center;
-  margin:15px;
+  margin:10px;
   font-weight:bold;
 }
 
@@ -135,9 +129,9 @@ a{ text-decoration:none; }
 .btn.confirmar{
   display:block;
   margin:10px auto;
+  padding:8px 16px;
   background:#1f2937;
-  padding:10px 20px;
-  border-radius:10px;
+  border-radius:8px;
 }
 
 /* MODAL */
@@ -152,8 +146,7 @@ a{ text-decoration:none; }
 
 .modal-box{
   background:#1e293b;
-  padding:20px;
-  padding-top:40px;
+  padding:15px;
   border-radius:10px;
   width:90%;
   max-width:350px;
@@ -162,32 +155,31 @@ a{ text-decoration:none; }
 
 .cerrar{
   position:absolute;
-  top:10px;
-  right:10px;
-  background:#111;
-  color:white;
-  border:none;
-  border-radius:6px;
-  padding:4px 8px;
+  top:5px;
+  right:5px;
 }
 
-/* GALERÍA */
+/* 🔥 IMAGEN MODAL CONTROLADA */
+.modal img{
+  max-width:100%;
+  max-height:60vh;
+  display:block;
+  margin:auto;
+}
+
+/* DOTS */
 .galeria-dots{
   display:flex;
   justify-content:center;
-  gap:6px;
+  gap:5px;
   margin-top:10px;
 }
-
 .dot{
-  width:8px;
-  height:8px;
+  width:6px;
+  height:6px;
   border-radius:50%;
-  background:#6b7280;
-  opacity:.6;
+  background:#777;
 }
-
 .dot.active{
-  background:white;
-  opacity:1;
+  background:#fff;
 }
