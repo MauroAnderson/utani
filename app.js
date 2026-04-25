@@ -279,8 +279,5 @@ function generarMensajeProducto(p){
   return encodeURIComponent(mensaje);
 }
 
-function enviarCotizacion(){
-  alert("Cotización lista");
-}
 
 cargarDatos();
