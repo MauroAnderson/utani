@@ -84,13 +84,13 @@ function render(lista){
 
           <button class="btn secondary"
             onclick="verDesc('${p.descripcion}')">
-            Detalle
+            ℹ Detalle
           </button>
 
           ${p.obsequio?`
             <button class="btn gift"
               onclick="verGift('${p.obsequio}')">
-              Obsequio
+              🎁 Obsequio
             </button>
           `:''}
 
@@ -99,7 +99,7 @@ function render(lista){
                `Hola, me interesa ${p.nombre} - S/ ${precioFinal.toFixed(2)}`
              )}"
              target="_blank">
-             WhatsApp
+             🟢 WhatsApp
           </a>
 
         </div>
@@ -129,6 +129,7 @@ function verImagenes(imgs){
   abrirModal(html);
 }
 
+/* SIN PUNTOS */
 function verDesc(texto){
   abrirModal(`<p>${texto}</p>`);
 }
@@ -148,7 +149,6 @@ function enviarCotizacion(){
   lista.forEach((p,i)=>{
     let precio=num(p.oferta||p.precio);
     total+=precio;
-
     mensaje+=`${i+1}. ${p.nombre} - S/ ${precio.toFixed(2)}\n`;
   });
 
