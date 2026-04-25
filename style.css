@@ -1,3 +1,25 @@
+/* HEADER FLEX */
+.header-content{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* BOTÓN ACTUALIZAR */
+.btn-refresh{
+  background:#1f2937;
+  color:white;
+  border:none;
+  border-radius:8px;
+  padding:6px 10px;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.btn-refresh:hover{
+  background:#374151;
+}
+
 body{
   margin:0;
   font-family:'Segoe UI';
