@@ -2,41 +2,46 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UTANI STORE</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<header class="topbar">
-  <div class="brand">UTANI STORE</div>
-</header>
+<div class="header">UTANI STORE</div>
 
-<main class="container">
+<div class="container">
 
-  <div id="tituloCliente" class="titulo"></div>
-  <div id="mensaje" class="mensaje"></div>
+    <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png">
 
-  <div id="productos" class="grid"></div>
+        <div class="info">
+            <div class="title">Laptop HP Ryzen 5</div>
+            <div class="price">S/ 20.00</div>
 
-  <div id="total" class="total"></div>
+            <div class="buttons">
+                <button class="btn-primary" onclick="abrirModal()">🔍 Ver detalle</button>
+                <button class="btn-secondary" onclick="agregarObsequio()">🎁 Agregar obsequio</button>
+            </div>
 
-  <!-- BOTÓN FINAL -->
-  <button onclick="enviarCotizacion()" class="btn confirmar">
-    🟢 Confirmar cotización
-  </button>
+            <div id="obsequio">Obsequio: S/ 0.00</div>
+        </div>
+    </div>
 
-</main>
+    <div class="total">💰 Total: S/ <span id="total">20</span></div>
 
-<!-- MODAL -->
-<div id="modal" class="modal">
-  <div class="modal-box">
-    <span class="cerrar" onclick="cerrarModal()">✖</span>
-    <div id="contenidoModal"></div>
-  </div>
 </div>
 
-<script src="app.js"></script>
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <h3>Detalle del producto</h3>
+        <p>Laptop HP Ryzen 5 - 8GB RAM, SSD 256GB.</p>
+        <button class="close" onclick="cerrarModal()">Cerrar</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
