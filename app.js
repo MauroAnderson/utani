@@ -4,8 +4,13 @@ const numero = "51921891070";
 
 let productos=[];
 
-/* CARGA INICIAL */
-function cargarDatos(){
+/* OBTENER CLIENTE UNA SOLA VEZ */
+function getCliente(){
+  return new URLSearchParams(window.location.search).get("cliente");
+}
+
+/* CARGAR DATOS */
+function cargarDatos(callback){
   productos=[];
 
   fetch(url)
@@ -28,40 +33,46 @@ function cargarDatos(){
       });
     });
 
-    iniciar();
+    callback(); // 🔥 importante
   });
 }
 
-/* BOTÓN ACTUALIZAR */
+/* ACTUALIZAR (SIN PERDER CLIENTE) */
 function actualizarPagina(){
-  cargarDatos();
+  const cliente = getCliente();
+
+  cargarDatos(()=>{
+    iniciar(cliente);
+  });
 }
 
-function getCliente(){
-  return new URLSearchParams(window.location.search).get("cliente");
-}
-
-function num(v){
-  let n=Number(v);
-  return isNaN(n)?0:n;
-}
-
-function iniciar(){
-  const cliente=getCliente();
+/* INICIAR */
+function iniciar(clienteParam){
+  const cliente = clienteParam || getCliente();
 
   if(!cliente){
     document.getElementById("mensaje").innerHTML="Cotización personalizada";
     return;
   }
 
-  const lista=productos.filter(p=>p.cliente.toLowerCase()===cliente.toLowerCase());
+  const lista = productos.filter(
+    p => p.cliente.toLowerCase() === cliente.toLowerCase()
+  );
 
-  document.getElementById("tituloCliente").innerHTML=`Cotización para ${cliente}`;
+  document.getElementById("tituloCliente").innerHTML =
+    `Cotización para ${cliente}`;
 
   render(lista);
   renderTotal(lista);
 }
 
+/* UTIL */
+function num(v){
+  let n=Number(v);
+  return isNaN(n)?0:n;
+}
+
+/* RENDER */
 function render(lista){
   let html="";
 
@@ -119,6 +130,7 @@ function render(lista){
   document.getElementById("productos").innerHTML=html;
 }
 
+/* TOTAL */
 function renderTotal(lista){
   let total=lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
   document.getElementById("total").innerHTML=`Total: S/ ${total.toFixed(2)}`;
@@ -154,7 +166,9 @@ function verGift(t){
 /* WHATSAPP FINAL */
 function enviarCotizacion(){
   const cliente=getCliente();
-  const lista=productos.filter(p=>p.cliente.toLowerCase()===cliente.toLowerCase());
+  const lista=productos.filter(
+    p => p.cliente.toLowerCase() === cliente.toLowerCase()
+  );
 
   let mensaje=`COTIZACIÓN - ${cliente}\n\n`;
   let total=0;
@@ -170,5 +184,7 @@ function enviarCotizacion(){
   window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`,"_blank");
 }
 
-/* INICIAR */
-cargarDatos();
+/* INICIO */
+cargarDatos(()=>{
+  iniciar();
+});
