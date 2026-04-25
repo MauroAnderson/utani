@@ -5,6 +5,10 @@ const numero = "51921891070";
 let productos = [];
 let cargando = false;
 
+/* GALERÍA */
+let galeriaImgs = [];
+let indexActual = 0;
+
 function getCliente(){
   return new URLSearchParams(window.location.search).get("cliente");
 }
@@ -52,68 +56,39 @@ function num(v){
 function iniciar(){
   const cliente = getCliente();
 
-  if(!cliente){
-    document.getElementById("tituloCliente").innerHTML="Sin cliente";
-    return;
-  }
-
   const lista = productos.filter(p =>
     p.cliente.toLowerCase() === cliente.toLowerCase()
   );
-
-  document.getElementById("tituloCliente").innerHTML =
-    `Cotización para ${cliente}`;
 
   render(lista);
   renderTotal(lista);
 }
 
+/* RENDER */
 function render(lista){
   let html = "";
 
   lista.forEach(p=>{
     let img = p.imagen.split("|")[0].trim();
-    let tieneOferta = p.oferta && p.oferta !== p.precio;
     let precioFinal = num(p.oferta || p.precio);
 
     html += `
     <div class="card">
 
-      ${tieneOferta ? `<div class="badge">OFERTA</div>` : ''}
+      ${p.oferta && p.oferta !== p.precio ? `<div class="badge">OFERTA</div>` : ''}
 
       <div class="card-img">
-        <img src="${img}">
+        <img src="${img}" onclick="verImagenes('${p.imagen}')">
       </div>
 
       <div class="card-body">
         <div class="nombre">${p.nombre}</div>
-
-        ${
-          tieneOferta
-          ? `<div class="precio-old">S/ ${p.precio}</div>
-             <div class="precio">S/ ${precioFinal.toFixed(2)}</div>`
-          : `<div class="precio">S/ ${precioFinal.toFixed(2)}</div>`
-        }
+        <div class="precio">S/ ${precioFinal.toFixed(2)}</div>
 
         <div class="actions">
-
-          <button class="btn info"
-            onclick="verDesc('${p.descripcion}')">
-            ℹ Detalle
-          </button>
-
-          ${p.obsequio ? `
-            <button class="btn gift">
-              🎁 Obsequio
-            </button>
-          ` : ''}
-
-          <a class="btn wsp"
-             href="https://wa.me/${numero}"
-             target="_blank">
-             🟢 WhatsApp
-          </a>
-
+          <button class="btn info" onclick="verDesc('${p.descripcion}')">ℹ Detalle</button>
+          ${p.obsequio ? `<button class="btn gift">🎁 Obsequio</button>` : ''}
+          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">🟢 WhatsApp</a>
         </div>
 
       </div>
@@ -123,13 +98,44 @@ function render(lista){
   document.getElementById("productos").innerHTML = html;
 }
 
+/* TOTAL */
 function renderTotal(lista){
   let total = lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
-
-  document.getElementById("total").innerHTML =
-    `Total: S/ ${total.toFixed(2)}`;
+  document.getElementById("total").innerHTML = `Total: S/ ${total.toFixed(2)}`;
 }
 
+/* GALERÍA */
+function verImagenes(imgs){
+  galeriaImgs = imgs.split("|").map(i=>i.trim());
+  indexActual = 0;
+  mostrarImagen();
+}
+
+function mostrarImagen(){
+  let html = `
+    <img src="${galeriaImgs[indexActual]}">
+
+    <div style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
+      <button onclick="anterior()">⬅</button>
+      <button onclick="siguiente()">➡</button>
+    </div>
+  `;
+
+  document.getElementById("contenidoModal").innerHTML = html;
+  document.getElementById("modal").style.display = "flex";
+}
+
+function siguiente(){
+  indexActual = (indexActual + 1) % galeriaImgs.length;
+  mostrarImagen();
+}
+
+function anterior(){
+  indexActual = (indexActual - 1 + galeriaImgs.length) % galeriaImgs.length;
+  mostrarImagen();
+}
+
+/* DESCRIPCIÓN */
 function verDesc(texto){
   let lista = texto.split("|")
     .map(t=>`<div>✔ ${t.trim()}</div>`).join("");
@@ -143,7 +149,7 @@ function cerrarModal(){
 }
 
 function enviarCotizacion(){
-  alert("Cotización lista para enviar");
+  alert("Cotización lista");
 }
 
 cargarDatos();
