@@ -23,7 +23,7 @@ function cargarDatos(){
     const filas=data.split("\n").slice(1);
 
     filas.forEach(c=>{
-      let col=c.split(",");
+      let col = parseCSVLine(c);
       if(col.length<8)return;
 
       productos.push({
@@ -177,6 +177,30 @@ function verGift(texto){
 
 function cerrarModal(){
   document.getElementById("modal").style.display="none";
+}
+
+function parseCSVLine(line){
+  const result = [];
+  let current = "";
+  let insideQuotes = false;
+
+  for(let i=0;i<line.length;i++){
+    const char = line[i];
+
+    if(char === '"'){
+      insideQuotes = !insideQuotes;
+    }
+    else if(char === "," && !insideQuotes){
+      result.push(current);
+      current = "";
+    }
+    else{
+      current += char;
+    }
+  }
+
+  result.push(current);
+  return result;
 }
 
 function enviarCotizacion(){
