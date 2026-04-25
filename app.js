@@ -1,15 +1,13 @@
 const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXtTi9Ap5ZNdHJrpEn7p2Dx07iAJBQH814jw4p6tBslh3fsCZhnTTExdVLPLPLK/pub?output=csv";
 
-
 let productos = [];
 
 fetch(url)
   .then(r => r.text())
   .then(data => {
-    const filas = data.split("\n").slice(1);
+    const filas = parseCSV(data).slice(1);
 
-    filas.forEach(f => {
-      let c = f.split(",");
+    filas.forEach(c => {
       if (c.length < 8) return;
 
       productos.push({
@@ -27,8 +25,39 @@ fetch(url)
   });
 
 /* =========================
-   Helpers
+   CSV ROBUSTO
 ========================= */
+function parseCSV(text) {
+  const rows = [];
+  let current = '';
+  let insideQuotes = false;
+  let row = [];
+
+  for (let i = 0; i < text.length; i++) {
+    let char = text[i];
+
+    if (char === '"') {
+      insideQuotes = !insideQuotes;
+    } else if (char === ',' && !insideQuotes) {
+      row.push(current);
+      current = '';
+    } else if (char === '\n' && !insideQuotes) {
+      row.push(current);
+      rows.push(row);
+      row = [];
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+
+  row.push(current);
+  rows.push(row);
+
+  return rows;
+}
+
+/* ========================= */
 function getCliente(){
   const params = new URLSearchParams(window.location.search);
   return params.get("cliente");
@@ -39,15 +68,13 @@ function num(v){
   return isNaN(n) ? 0 : n;
 }
 
-/* =========================
-   Init
-========================= */
+/* ========================= */
 function iniciar(){
   const cliente = getCliente();
 
   if(!cliente){
     document.getElementById("mensaje").innerHTML =
-      "⚠️ Esta es una cotización personalizada. Solicita tu link al asesor.";
+      "⚠️ Esta es una cotización personalizada.";
     return;
   }
 
@@ -63,13 +90,15 @@ function iniciar(){
 }
 
 /* =========================
-   Render
+   RENDER
 ========================= */
 function render(lista){
   let html = "";
 
   lista.forEach(p => {
-    const img = (p.imagen.split("|")[0] || "").trim();
+
+    const imgs = p.imagen.split("|").map(i => i.trim());
+    const imgPrincipal = imgs[0];
 
     const tieneOferta =
       p.oferta &&
@@ -82,8 +111,8 @@ function render(lista){
         ${tieneOferta ? `<div class="badge">OFERTA</div>` : ``}
 
         <div class="card-img">
-          <img src="${img}" alt="${p.nombre}"
-               onclick="verImagen('${img}')">
+          <img src="${imgPrincipal}"
+               onclick="verImagenes('${p.imagen}')">
         </div>
 
         <div class="card-body">
@@ -111,8 +140,6 @@ function render(lista){
               : ``
             }
           </div>
-
-         
         </div>
       </div>
     `;
@@ -122,7 +149,7 @@ function render(lista){
 }
 
 /* =========================
-   Total
+   TOTAL
 ========================= */
 function renderTotal(lista){
   const suma = lista.reduce((acc, p) => {
@@ -134,8 +161,9 @@ function renderTotal(lista){
 }
 
 /* =========================
-   Modal
+   MODALES
 ========================= */
+
 function abrirModal(html){
   document.getElementById("contenidoModal").innerHTML = html;
   document.getElementById("modal").style.display = "flex";
@@ -145,20 +173,39 @@ function cerrarModal(){
   document.getElementById("modal").style.display = "none";
 }
 
-function verImagen(img){
-  abrirModal(`<img src="${img}" style="width:100%; border-radius:10px;">`);
+/* MULTI IMAGEN */
+function verImagenes(imgs){
+  let lista = imgs.split("|").map(x => x.trim());
+
+  let html = `
+    <div style="display:flex;flex-direction:column;gap:10px;">
+  `;
+
+  lista.forEach(img=>{
+    html += `<img src="${img}" style="width:100%; border-radius:10px;">`;
+  });
+
+  html += `</div>`;
+
+  abrirModal(html);
 }
 
+/* DESCRIPCIÓN */
 function verDesc(texto){
-  abrirModal(`<p style="font-size:13px; line-height:1.5;">${texto || "Sin descripción"}</p>`);
+  let lista = texto.split("|")
+    .map(t => `<li>${t.trim()}</li>`)
+    .join("");
+
+  abrirModal(`<ul style="font-size:13px;line-height:1.5">${lista}</ul>`);
 }
 
+/* OBSEQUIO */
 function verGift(texto){
   abrirModal(`<p style="font-size:13px;">🎁 ${texto}</p>`);
 }
 
 /* =========================
-   Seguridad básica
+   SEGURIDAD
 ========================= */
 function escapeHtml(str){
   return (str || "")
