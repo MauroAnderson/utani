@@ -5,6 +5,7 @@ body{
   color:white;
 }
 
+/* HEADER */
 .topbar{
   background:linear-gradient(90deg,#1e3a8a,#4c1d95);
   padding:10px;
@@ -26,6 +27,7 @@ body{
   cursor:pointer;
 }
 
+/* CONTENIDO */
 .container{
   max-width:1100px;
   margin:auto;
@@ -38,12 +40,14 @@ body{
   font-weight:bold;
 }
 
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:14px;
 }
 
+/* CARD */
 .card{
   background:#1e293b;
   border-radius:12px;
@@ -93,6 +97,7 @@ body{
   font-size:11px;
 }
 
+/* BOTONES COMPACTOS */
 .actions{
   display:flex;
   gap:6px;
@@ -103,22 +108,30 @@ body{
   flex:1;
   border:none;
   border-radius:8px;
-  padding:6px;
-  font-size:12px;
+  padding:5px 6px;
+  font-size:11px;
   cursor:pointer;
   color:white;
+  text-align:center;
 }
 
 .btn.info{ background:#3b82f6; }
 .btn.gift{ background:#8b5cf6; }
-.btn.wsp{ background:#16a34a; }
+.btn.wsp{
+  background:#16a34a;
+  text-decoration:none;
+}
 
+a{ text-decoration:none; }
+
+/* TOTAL */
 .total{
   text-align:center;
   margin:15px;
   font-weight:bold;
 }
 
+/* CONFIRMAR */
 .btn.confirmar{
   display:block;
   margin:10px auto;
@@ -158,18 +171,23 @@ body{
   padding:4px 8px;
 }
 
-/* 🔥 GALERÍA */
-.modal img{
-  width:100%;
-  border-radius:10px;
-  transition:transform .2s;
-}
-.modal img:hover{
-  transform:scale(1.05);
+/* GALERÍA */
+.galeria-dots{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-top:10px;
 }
 
-/* PC */
-@media (min-width:1024px){
-  .container{ max-width:900px; }
-  .grid{ grid-template-columns:repeat(3,1fr); }
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#6b7280;
+  opacity:.6;
+}
+
+.dot.active{
+  background:white;
+  opacity:1;
 }
