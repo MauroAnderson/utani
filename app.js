@@ -1,6 +1,5 @@
 const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXtTi9Ap5ZNdHJrpEn7p2Dx07iAJBQH814jw4p6tBslh3fsCZhnTTExdVLPLPLK/pub?output=csv";
 
-const url = "TU_LINK_CSV_AQUI";
 const numero = "51921891070";
 
 let productos = [];
