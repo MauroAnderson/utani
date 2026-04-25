@@ -52,7 +52,6 @@ function iniciar(){
   renderTotal(lista);
 }
 
-/* RENDER */
 function render(lista){
   let html="";
 
@@ -63,7 +62,6 @@ function render(lista){
 
     html+=`
     <div class="card">
-
       ${tieneOferta?`<div class="badge">OFERTA</div>`:''}
 
       <div class="card-img">
@@ -81,15 +79,12 @@ function render(lista){
         }
 
         <div class="actions">
-
-          <button class="btn secondary"
-            onclick="verDesc('${p.descripcion}')">
+          <button class="btn secondary" onclick="verDesc('${p.descripcion}')">
             ℹ Detalle
           </button>
 
           ${p.obsequio?`
-            <button class="btn gift"
-              onclick="verGift('${p.obsequio}')">
+            <button class="btn gift" onclick="verGift('${p.obsequio}')">
               🎁 Obsequio
             </button>
           `:''}
@@ -101,7 +96,6 @@ function render(lista){
              target="_blank">
              🟢 WhatsApp
           </a>
-
         </div>
       </div>
     </div>`;
@@ -129,16 +123,20 @@ function verImagenes(imgs){
   abrirModal(html);
 }
 
-/* SIN PUNTOS */
+/* Descripción con iconos y separador | */
 function verDesc(texto){
-  abrirModal(`<p>${texto}</p>`);
+  let lista = texto.split("|")
+    .map(t => `<div>✔ ${t.trim()}</div>`)
+    .join("");
+
+  abrirModal(`<div style="font-size:13px;line-height:1.6">${lista}</div>`);
 }
 
 function verGift(t){
-  abrirModal(`<p>${t}</p>`);
+  abrirModal(`<p>🎁 ${t}</p>`);
 }
 
-/* WHATSAPP FINAL */
+/* WhatsApp final */
 function enviarCotizacion(){
   const cliente=getCliente();
   const lista=productos.filter(p=>p.cliente.toLowerCase()===cliente.toLowerCase());
