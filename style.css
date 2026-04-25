@@ -202,3 +202,11 @@ a{text-decoration:none}
 .dot.active{
   background:#fff;
 }
+
+
+/* TEXTO DETALLE A LA IZQUIERDA */
+.modal-detalle{
+  text-align:left;
+  font-size:13px;
+  line-height:1.5;
+}
