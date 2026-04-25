@@ -122,10 +122,15 @@ body{
 /* BOTÓN FINAL */
 .confirmar-box{ text-align:center; }
 .btn.confirmar{
+  display:block;
+  margin:10px auto 20px auto;
   background:#25D366;
   color:white;
   padding:10px 20px;
   border-radius:10px;
+  font-size:14px;
+  border:none;
+  width:fit-content;
 }
 
 /* MODAL */
