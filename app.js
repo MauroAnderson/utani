@@ -76,13 +76,15 @@ function render(lista){
         <div class="precio">S/ ${precio.toFixed(2)}</div>
 
         <div class="actions">
-          <button class="btn info" onclick="verDesc('${p.descripcion}')">Detalle</button>
+          <button class="btn info">ℹ Detalle</button>
 
           ${p.obsequio?
-            `<button class="btn gift" onclick="verGift('${p.obsequio}')">Obsequio</button>`
+            `<button class="btn gift" onclick="verGift('${p.obsequio}')">🎁 Obsequio</button>`
           :''}
 
-          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">WhatsApp</a>
+          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">
+            🟢 WhatsApp
+          </a>
         </div>
 
       </div>
@@ -122,27 +124,17 @@ function irA(i){
   mostrarImagen();
 }
 
-/* DESCRIPCIÓN */
-function verDesc(texto){
-  let lista=texto.split("|").map(t=>`<div>✔ ${t}</div>`).join("");
-  document.getElementById("contenidoModal").innerHTML=lista;
-  document.getElementById("modal").style.display="flex";
-}
-
-/* 🔥 OBSEQUIO */
+/* 🔥 OBSEQUIO MEJORADO */
 function verGift(texto){
-  document.getElementById("contenidoModal").innerHTML=
-    `<p style="font-size:14px;">🎁 ${texto}</p>`;
-
+  document.getElementById("contenidoModal").innerHTML=`
+    <h3 style="margin-bottom:10px;">🎁 Obsequio</h3>
+    <p>${texto}</p>
+  `;
   document.getElementById("modal").style.display="flex";
 }
 
 function cerrarModal(){
   document.getElementById("modal").style.display="none";
-}
-
-function enviarCotizacion(){
-  alert("Cotización lista");
 }
 
 cargarDatos();
