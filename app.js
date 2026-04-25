@@ -1,5 +1,6 @@
 const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxV_Ae4z_UyHXA5cXtTi9Ap5ZNdHJrpEn7p2Dx07iAJBQH814jw4p6tBslh3fsCZhnTTExdVLPLPLK/pub?output=csv";
 
+
 let productos = [];
 
 fetch(url)
@@ -70,7 +71,11 @@ function render(lista){
   lista.forEach(p => {
     const img = (p.imagen.split("|")[0] || "").trim();
 
-    const tieneOferta = p.oferta && p.oferta !== "0" && p.oferta !== "";
+    const tieneOferta =
+      p.oferta &&
+      p.oferta !== "0" &&
+      p.oferta !== "" &&
+      p.oferta !== p.precio;
 
     html += `
       <div class="card">
@@ -96,17 +101,22 @@ function render(lista){
                     onclick="verDesc('${escapeHtml(p.descripcion)}')">
               Detalle
             </button>
-            ${p.obsequio
+
+            ${
+              p.obsequio
               ? `<button class="btn gift"
                    onclick="verGift('${escapeHtml(p.obsequio)}')">
-                   🎁
+                   🎁 Obsequio
                  </button>`
-              : ``}
+              : ``
+            }
           </div>
 
-          ${p.obsequio
+          ${
+            p.obsequio
             ? `<div class="gift-row">🎁 ${p.obsequio} — S/ 0</div>`
-            : ``}
+            : ``
+          }
         </div>
       </div>
     `;
@@ -140,19 +150,19 @@ function cerrarModal(){
 }
 
 function verImagen(img){
-  abrirModal(`<img src="${img}" alt="imagen">`);
+  abrirModal(`<img src="${img}" style="width:100%; border-radius:10px;">`);
 }
 
 function verDesc(texto){
-  abrirModal(`<p>${texto || "Sin descripción"}</p>`);
+  abrirModal(`<p style="font-size:13px; line-height:1.5;">${texto || "Sin descripción"}</p>`);
 }
 
 function verGift(texto){
-  abrirModal(`<p>🎁 ${texto}</p>`);
+  abrirModal(`<p style="font-size:13px;">🎁 ${texto}</p>`);
 }
 
 /* =========================
-   Seguridad básica (escapar texto)
+   Seguridad básica
 ========================= */
 function escapeHtml(str){
   return (str || "")
