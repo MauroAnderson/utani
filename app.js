@@ -5,91 +5,80 @@ const numero = "51921891070";
 let productos = [];
 
 fetch(url)
-  .then(r => r.text())
-  .then(data => {
-    const filas = parseCSV(data).slice(1);
+.then(r=>r.text())
+.then(data=>{
+  const filas = parseCSV(data).slice(1);
 
-    filas.forEach(c => {
-      if (c.length < 8) return;
+  filas.forEach(c=>{
+    if(c.length<8) return;
 
-      productos.push({
-        cliente: (c[0] || "").trim(),
-        nombre: (c[2] || "").trim(),
-        precio: (c[3] || "").trim(),
-        oferta: (c[4] || "").trim(),
-        descripcion: (c[5] || "").trim(),
-        imagen: (c[6] || "").trim(),
-        obsequio: (c[7] || "").trim()
-      });
+    productos.push({
+      cliente:c[0].trim(),
+      nombre:c[2].trim(),
+      precio:c[3].trim(),
+      oferta:c[4].trim(),
+      descripcion:c[5].trim(),
+      imagen:c[6].trim(),
+      obsequio:c[7].trim()
     });
-
-    iniciar();
   });
 
-/* CSV robusto */
+  iniciar();
+});
+
+/* CSV */
 function parseCSV(text){
   const rows=[]; let current=''; let inside=false; let row=[];
   for(let i=0;i<text.length;i++){
     let c=text[i];
     if(c=='"') inside=!inside;
-    else if(c==',' && !inside){ row.push(current); current=''; }
-    else if(c=='\n' && !inside){ row.push(current); rows.push(row); row=[]; current=''; }
+    else if(c==','&&!inside){row.push(current);current='';}
+    else if(c=='\n'&&!inside){row.push(current);rows.push(row);row=[];current='';}
     else current+=c;
   }
-  row.push(current); rows.push(row);
+  row.push(current);rows.push(row);
   return rows;
 }
 
-/* helpers */
 function getCliente(){
   return new URLSearchParams(window.location.search).get("cliente");
 }
+
 function num(v){
-  let n = Number(v);
+  let n=Number(v);
   return isNaN(n)?0:n;
 }
 
-/* init */
 function iniciar(){
-  const cliente = getCliente();
+  const cliente=getCliente();
 
   if(!cliente){
-    document.getElementById("mensaje").innerHTML =
-      "⚠️ Cotización personalizada";
+    document.getElementById("mensaje").innerHTML="⚠ Cotización personalizada";
     return;
   }
 
-  const lista = productos.filter(p =>
-    p.cliente.toLowerCase() === cliente.toLowerCase()
-  );
+  const lista=productos.filter(p=>p.cliente.toLowerCase()===cliente.toLowerCase());
 
-  document.getElementById("tituloCliente").innerHTML =
-    `📄 Cotización para ${cliente}`;
+  document.getElementById("tituloCliente").innerHTML=`📄 Cotización para ${cliente}`;
 
   render(lista);
   renderTotal(lista);
 }
 
-/* render */
+/* RENDER */
 function render(lista){
   let html="";
 
   lista.forEach(p=>{
-    let imgs = p.imagen.split("|").map(i=>i.trim());
-    let img = imgs[0];
+    let img=p.imagen.split("|")[0];
 
-    let tieneOferta =
-      p.oferta && p.oferta !== "0" && p.oferta !== "" && p.oferta !== p.precio;
+    let tieneOferta=p.oferta && p.oferta!=="0" && p.oferta!==p.precio;
 
-    let precioFinal = num(p.oferta || p.precio);
+    let precioFinal=num(p.oferta||p.precio);
 
-    let mensaje = encodeURIComponent(
-      `Hola, me interesa:\n${p.nombre}\nPrecio: S/ ${precioFinal.toFixed(2)}`
-    );
-
-    html += `
+    html+=`
     <div class="card">
-      ${tieneOferta ? `<div class="badge">OFERTA</div>` : ``}
+      ${tieneOferta?`<div class="badge">OFERTA</div>`:''}
 
       <div class="card-img">
         <img src="${img}" onclick="verImagenes('${p.imagen}')">
@@ -106,74 +95,61 @@ function render(lista){
         }
 
         <div class="actions">
-          <button class="btn secondary"
-            onclick="verDesc('${escapeHtml(p.descripcion)}')">
-            ℹ Detalle
-          </button>
-
-          ${
-            p.obsequio
-            ? `<button class="btn gift"
-                onclick="verGift('${escapeHtml(p.obsequio)}')">
-                🎁 Obsequio
-              </button>`
-            : ``
-          }
-
-          <a class="btn wsp"
-             href="https://wa.me/${numero}?text=${mensaje}"
-             target="_blank">
-             🟢 WhatsApp
-          </a>
+          <button class="btn secondary" onclick="verDesc('${p.descripcion}')">ℹ</button>
+          ${p.obsequio?`<button class="btn gift" onclick="verGift('${p.obsequio}')">🎁</button>`:''}
         </div>
       </div>
     </div>`;
   });
 
-  document.getElementById("productos").innerHTML = html;
+  document.getElementById("productos").innerHTML=html;
 }
 
-/* total */
+/* TOTAL */
 function renderTotal(lista){
-  let total = lista.reduce((acc,p)=> acc + num(p.oferta || p.precio),0);
-  document.getElementById("total").innerHTML =
-    `💰 Total: S/ ${total.toFixed(2)}`;
+  let total=lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
+  document.getElementById("total").innerHTML=`💰 Total: S/ ${total.toFixed(2)}`;
 }
 
-/* modal */
+/* MODAL */
 function abrirModal(html){
-  document.getElementById("contenidoModal").innerHTML = html;
+  document.getElementById("contenidoModal").innerHTML=html;
   document.getElementById("modal").style.display="flex";
 }
 function cerrarModal(){
   document.getElementById("modal").style.display="none";
 }
 
-/* multi imagen */
 function verImagenes(imgs){
-  let lista = imgs.split("|");
-  let html = lista.map(i =>
-    `<img src="${i.trim()}">`
-  ).join("");
+  let html=imgs.split("|").map(i=>`<img src="${i.trim()}">`).join("");
   abrirModal(html);
 }
 
-/* descripción */
 function verDesc(texto){
-  let lista = texto.split("|")
-    .map(t=>`<li>${t.trim()}</li>`).join("");
-  abrirModal(`<ul>${lista}</ul>`);
+  let html=texto.split("|").map(t=>`<li>${t}</li>`).join("");
+  abrirModal(`<ul>${html}</ul>`);
 }
 
-/* obsequio */
-function verGift(texto){
-  abrirModal(`<p>🎁 ${texto}</p>`);
+function verGift(t){
+  abrirModal(`<p>🎁 ${t}</p>`);
 }
 
-/* seguridad */
-function escapeHtml(str){
-  return (str||"")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;");
+/* 🔥 WHATSAPP FINAL */
+function enviarCotizacion(){
+  const cliente=getCliente();
+  const lista=productos.filter(p=>p.cliente.toLowerCase()===cliente.toLowerCase());
+
+  let mensaje=`🧾 COTIZACIÓN\nCliente: ${cliente}\n\n`;
+  let total=0;
+
+  lista.forEach((p,i)=>{
+    let precio=num(p.oferta||p.precio);
+    total+=precio;
+
+    mensaje+=`${i+1}. ${p.nombre}\nS/ ${precio.toFixed(2)}\n\n`;
+  });
+
+  mensaje+=`💰 TOTAL: S/ ${total.toFixed(2)}\n\nConfirmo mi compra ✅`;
+
+  window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`,"_blank");
 }
