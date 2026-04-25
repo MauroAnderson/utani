@@ -152,13 +152,17 @@ function irA(i){
 
 /* DETALLE */
 function verDesc(texto){
-  let lista=texto.split("|")
-    .map(t=>`<div style="margin-bottom:6px;">✔ ${t}</div>`).join("");
+  let lista = texto.split("|")
+    .map(t => `<div style="margin-bottom:6px;">✔ ${t.trim()}</div>`)
+    .join("");
 
-  document.getElementById("contenidoModal").innerHTML=`
-    <h3>ℹ Detalle</h3>
-    ${lista}
+  document.getElementById("contenidoModal").innerHTML = `
+    <div class="modal-detalle">
+      <h3 style="margin-bottom:10px;">ℹ Detalle</h3>
+      ${lista}
+    </div>
   `;
+
   document.getElementById("modal").style.display="flex";
 }
 
