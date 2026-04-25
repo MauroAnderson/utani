@@ -239,3 +239,10 @@ a{text-decoration:none}
 .nav:hover{
   background:#dc2626;
 }
+.cerrar{
+  z-index:20;
+}
+
+.nav{
+  z-index:5;
+}
