@@ -7,15 +7,13 @@ let galeriaImgs=[];
 let indexActual=0;
 let cargando=false;
 
-/* CLIENTE */
 function getCliente(){
   return new URLSearchParams(window.location.search).get("cliente");
 }
 
-/* CARGA (SIN DUPLICADOS) */
 function cargarDatos(){
   if(cargando) return;
-  cargando = true;
+  cargando=true;
 
   productos=[];
 
@@ -51,7 +49,6 @@ function num(v){
   return isNaN(n)?0:n;
 }
 
-/* INICIO */
 function iniciar(){
   const cliente=getCliente();
 
@@ -63,7 +60,6 @@ function iniciar(){
   renderTotal(lista);
 }
 
-/* RENDER */
 function render(lista){
   let html="";
 
@@ -88,37 +84,26 @@ function render(lista){
 
         ${
           tieneOferta
-          ? `<div style="display:flex; justify-content:center; gap:6px; align-items:center;">
-               <span style="text-decoration:line-through; font-size:12px; color:#aaa;">
-                 S/ ${precioNormal.toFixed(2)}
-               </span>
-               <span class="precio">
-                 S/ ${precioOferta.toFixed(2)}
-               </span>
+          ? `<div class="precio-flex">
+                <span class="precio-old">S/ ${precioNormal.toFixed(2)}</span>
+                <span class="precio-new">S/ ${precioOferta.toFixed(2)}</span>
              </div>`
-          : `<div class="precio">S/ ${precioNormal.toFixed(2)}</div>`
+          : `<div class="precio-new">S/ ${precioNormal.toFixed(2)}</div>`
         }
 
         <div class="actions">
-
-          <button class="btn info"
-            onclick="verDesc('${p.descripcion}')">
+          <button class="btn info" onclick="verDesc('${p.descripcion}')">
             ℹ Detalle
           </button>
 
           ${p.obsequio?
-            `<button class="btn gift"
-              onclick="verGift('${p.obsequio}')">
+            `<button class="btn gift" onclick="verGift('${p.obsequio}')">
               🎁 Obsequio
-            </button>`
-          :''}
+            </button>`:''}
 
-          <a class="btn wsp"
-             href="https://wa.me/${numero}"
-             target="_blank">
-             🟢 WhatsApp
+          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">
+            🟢 WhatsApp
           </a>
-
         </div>
 
       </div>
@@ -128,7 +113,6 @@ function render(lista){
   document.getElementById("productos").innerHTML=html;
 }
 
-/* TOTAL */
 function renderTotal(lista){
   let total=lista.reduce((a,p)=>a+num(p.oferta||p.precio),0);
   document.getElementById("total").innerHTML=`Total: S/ ${total.toFixed(2)}`;
@@ -168,7 +152,6 @@ function verDesc(texto){
     <h3>ℹ Detalle</h3>
     ${lista}
   `;
-
   document.getElementById("modal").style.display="flex";
 }
 
