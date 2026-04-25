@@ -60,12 +60,14 @@ function render(lista){
 
   lista.forEach(p=>{
     let img=p.imagen.split("|")[0].trim();
-    let precio=num(p.oferta||p.precio);
+    let precioNormal=num(p.precio);
+    let precioOferta=num(p.oferta || p.precio);
+    let tieneOferta = precioOferta < precioNormal;
 
     html+=`
     <div class="card">
 
-      ${p.oferta && p.oferta!==p.precio?`<div class="badge">OFERTA</div>`:''}
+      ${tieneOferta?`<div class="badge">OFERTA</div>`:''}
 
       <div class="card-img">
         <img src="${img}" onclick="verImagenes('${p.imagen}')">
@@ -73,18 +75,36 @@ function render(lista){
 
       <div class="card-body">
         <div class="nombre">${p.nombre}</div>
-        <div class="precio">S/ ${precio.toFixed(2)}</div>
+
+        ${
+          tieneOferta
+          ? `<div style="text-decoration:line-through; font-size:12px; color:#aaa;">
+               S/ ${precioNormal.toFixed(2)}
+             </div>
+             <div class="precio">S/ ${precioOferta.toFixed(2)}</div>`
+          : `<div class="precio">S/ ${precioNormal.toFixed(2)}</div>`
+        }
 
         <div class="actions">
-          <button class="btn info">ℹ Detalle</button>
+
+          <button class="btn info"
+            onclick="verDesc('${p.descripcion}')">
+            ℹ Detalle
+          </button>
 
           ${p.obsequio?
-            `<button class="btn gift" onclick="verGift('${p.obsequio}')">🎁 Obsequio</button>`
+            `<button class="btn gift"
+              onclick="verGift('${p.obsequio}')">
+              🎁 Obsequio
+            </button>`
           :''}
 
-          <a class="btn wsp" href="https://wa.me/${numero}" target="_blank">
-            🟢 WhatsApp
+          <a class="btn wsp"
+             href="https://wa.me/${numero}"
+             target="_blank">
+             🟢 WhatsApp
           </a>
+
         </div>
 
       </div>
@@ -124,7 +144,21 @@ function irA(i){
   mostrarImagen();
 }
 
-/* 🔥 OBSEQUIO MEJORADO */
+/* 🔥 DETALLE (CORREGIDO) */
+function verDesc(texto){
+  let lista=texto.split("|")
+    .map(t=>`<div style="margin-bottom:6px;">✔ ${t.trim()}</div>`)
+    .join("");
+
+  document.getElementById("contenidoModal").innerHTML=`
+    <h3 style="margin-bottom:10px;">ℹ Detalle</h3>
+    ${lista}
+  `;
+
+  document.getElementById("modal").style.display="flex";
+}
+
+/* 🔥 OBSEQUIO (YA CORRECTO) */
 function verGift(texto){
   document.getElementById("contenidoModal").innerHTML=`
     <h3 style="margin-bottom:10px;">🎁 Obsequio</h3>
@@ -135,6 +169,10 @@ function verGift(texto){
 
 function cerrarModal(){
   document.getElementById("modal").style.display="none";
+}
+
+function enviarCotizacion(){
+  alert("Cotización lista");
 }
 
 cargarDatos();
