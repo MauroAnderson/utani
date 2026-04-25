@@ -1,4 +1,3 @@
-/* MEJOR GRID EN PC */
 body{
   margin:0;
   font-family:'Segoe UI';
@@ -25,9 +24,9 @@ body{
   padding:6px 12px;
 }
 
-/* CONTENIDO */
+/* CONTENEDOR */
 .container{
-  max-width:950px;
+  max-width:1000px;
   margin:auto;
   padding:10px;
 }
@@ -35,8 +34,8 @@ body{
 /* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:14px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;
 }
 
 /* CARD */
@@ -44,14 +43,11 @@ body{
   background:#1e293b;
   border-radius:12px;
   overflow:hidden;
-  transition:.2s;
-}
-.card:hover{
-  transform:translateY(-3px);
+  position:relative; /* 🔥 clave para badge */
 }
 
 .card-img{
-  height:150px;
+  height:160px;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -66,12 +62,12 @@ body{
 
 /* TEXTO */
 .card-body{
-  padding:10px;
+  padding:12px;
   text-align:center;
 }
 
 .nombre{
-  font-size:14px;
+  font-size:15px;
   font-weight:600;
 }
 
@@ -79,24 +75,25 @@ body{
 .precio{
   background:#e2e8f0;
   color:#000;
-  padding:4px 10px;
+  padding:5px 10px;
   border-radius:20px;
-  display:inline-block;
   margin-top:6px;
+  display:inline-block;
 }
 
-/* BADGE */
+/* 🔥 BADGE BIEN POSICIONADO */
 .badge{
   position:absolute;
-  top:8px;
-  left:8px;
-  background:red;
-  padding:4px 6px;
+  top:10px;
+  left:10px;
+  background:#dc2626;
+  padding:5px 8px;
   border-radius:6px;
-  font-size:10px;
+  font-size:11px;
+  z-index:2;
 }
 
-/* BOTONES CENTRADOS */
+/* BOTONES */
 .actions{
   display:flex;
   justify-content:center;
@@ -105,9 +102,8 @@ body{
 }
 
 .btn{
-  min-width:90px;
   font-size:12px;
-  padding:6px;
+  padding:6px 10px;
   border:none;
   border-radius:8px;
   color:white;
@@ -149,13 +145,14 @@ a{text-decoration:none}
 
 .modal-box{
   background:#1e293b;
-  padding:20px;
-  padding-top:50px;
+  padding:18px;
+  padding-top:45px;
   border-radius:10px;
   width:90%;
-  max-width:350px;
+  max-width:340px;
   position:relative;
-  text-align:center;
+  font-size:13px; /* 🔥 tamaño controlado */
+  line-height:1.4;
 }
 
 .cerrar{
@@ -165,7 +162,7 @@ a{text-decoration:none}
   background:#111;
   color:white;
   border:none;
-  padding:5px 10px;
+  padding:5px 8px;
 }
 
 /* IMAGEN MODAL */
@@ -188,5 +185,12 @@ a{text-decoration:none}
   background:#777;
 }
 .dot.active{
-  background:white;
+  background:#fff;
+}
+
+/* 🔥 PC MEJOR */
+@media(min-width:1024px){
+  .grid{
+    grid-template-columns:repeat(3,1fr);
+  }
 }
