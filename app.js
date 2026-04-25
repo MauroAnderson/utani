@@ -4,28 +4,38 @@ const numero = "51921891070";
 
 let productos=[];
 
-fetch(url)
-.then(r=>r.text())
-.then(data=>{
-  const filas=data.split("\n").slice(1);
+/* CARGA INICIAL */
+function cargarDatos(){
+  productos=[];
 
-  filas.forEach(c=>{
-    let col=c.split(",");
-    if(col.length<8)return;
+  fetch(url)
+  .then(r=>r.text())
+  .then(data=>{
+    const filas=data.split("\n").slice(1);
 
-    productos.push({
-      cliente:col[0].trim(),
-      nombre:col[2].trim(),
-      precio:col[3].trim(),
-      oferta:col[4].trim(),
-      descripcion:col[5].trim(),
-      imagen:col[6].trim(),
-      obsequio:col[7].trim()
+    filas.forEach(c=>{
+      let col=c.split(",");
+      if(col.length<8)return;
+
+      productos.push({
+        cliente:col[0].trim(),
+        nombre:col[2].trim(),
+        precio:col[3].trim(),
+        oferta:col[4].trim(),
+        descripcion:col[5].trim(),
+        imagen:col[6].trim(),
+        obsequio:col[7].trim()
+      });
     });
-  });
 
-  iniciar();
-});
+    iniciar();
+  });
+}
+
+/* BOTÓN ACTUALIZAR */
+function actualizarPagina(){
+  cargarDatos();
+}
 
 function getCliente(){
   return new URLSearchParams(window.location.search).get("cliente");
@@ -62,6 +72,7 @@ function render(lista){
 
     html+=`
     <div class="card">
+
       ${tieneOferta?`<div class="badge">OFERTA</div>`:''}
 
       <div class="card-img">
@@ -79,12 +90,15 @@ function render(lista){
         }
 
         <div class="actions">
-          <button class="btn secondary" onclick="verDesc('${p.descripcion}')">
+
+          <button class="btn secondary"
+            onclick="verDesc('${p.descripcion}')">
             ℹ Detalle
           </button>
 
           ${p.obsequio?`
-            <button class="btn gift" onclick="verGift('${p.obsequio}')">
+            <button class="btn gift"
+              onclick="verGift('${p.obsequio}')">
               🎁 Obsequio
             </button>
           `:''}
@@ -96,6 +110,7 @@ function render(lista){
              target="_blank">
              🟢 WhatsApp
           </a>
+
         </div>
       </div>
     </div>`;
@@ -114,6 +129,7 @@ function abrirModal(html){
   document.getElementById("contenidoModal").innerHTML=html;
   document.getElementById("modal").style.display="flex";
 }
+
 function cerrarModal(){
   document.getElementById("modal").style.display="none";
 }
@@ -123,7 +139,6 @@ function verImagenes(imgs){
   abrirModal(html);
 }
 
-/* Descripción con iconos y separador | */
 function verDesc(texto){
   let lista = texto.split("|")
     .map(t => `<div>✔ ${t.trim()}</div>`)
@@ -136,7 +151,7 @@ function verGift(t){
   abrirModal(`<p>🎁 ${t}</p>`);
 }
 
-/* WhatsApp final */
+/* WHATSAPP FINAL */
 function enviarCotizacion(){
   const cliente=getCliente();
   const lista=productos.filter(p=>p.cliente.toLowerCase()===cliente.toLowerCase());
@@ -155,28 +170,5 @@ function enviarCotizacion(){
   window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`,"_blank");
 }
 
-function actualizarPagina(){
-  productos = [];
-  fetch(url)
-    .then(r => r.text())
-    .then(data => {
-      const filas = data.split("\n").slice(1);
-
-      filas.forEach(c=>{
-        let col=c.split(",");
-        if(col.length<8)return;
-
-        productos.push({
-          cliente:col[0].trim(),
-          nombre:col[2].trim(),
-          precio:col[3].trim(),
-          oferta:col[4].trim(),
-          descripcion:col[5].trim(),
-          imagen:col[6].trim(),
-          obsequio:col[7].trim()
-        });
-      });
-
-      iniciar();
-    });
-}
+/* INICIAR */
+cargarDatos();
