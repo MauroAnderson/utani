@@ -1,49 +1,44 @@
-:root{
-  --bg:#0b1220;
-  --grad1:#0d6efd;
-  --grad2:#7c3aed;
-  --text:#e6ecff;
-  --muted:#9aa4c7;
-}
-
-*{box-sizing:border-box}
-
 body{
   margin:0;
-  font-family:'Segoe UI', system-ui;
-  background:var(--bg);
-  color:var(--text);
+  font-family:'Segoe UI';
+  background:#0b1220;
+  color:white;
 }
 
-/* HEADER */
 .topbar{
-  background:linear-gradient(90deg,var(--grad1),var(--grad2));
+  background:linear-gradient(90deg,#0d6efd,#7c3aed);
   padding:15px;
   text-align:center;
 }
-.brand{ font-weight:bold; }
 
-/* CONTENIDO */
 .container{
   max-width:1100px;
   margin:auto;
   padding:10px;
 }
 
-.titulo{ text-align:center; font-weight:bold; margin:10px; }
-.mensaje{ text-align:center; margin:20px; }
+.titulo{
+  text-align:center;
+  margin:10px;
+  font-weight:bold;
+}
+
+.mensaje{
+  text-align:center;
+  margin:20px;
+}
 
 /* GRID */
 .grid{
   display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:15px;
 }
 
 /* CARD */
 .card{
-  background:linear-gradient(135deg,rgba(13,110,253,.2),rgba(124,58,237,.2));
-  border-radius:12px;
+  background:linear-gradient(135deg,#1e293b,#334155);
+  border-radius:10px;
   overflow:hidden;
   position:relative;
 }
@@ -61,16 +56,16 @@ body{
   cursor:pointer;
 }
 
-.card-body{ padding:10px; }
+.card-body{padding:10px;}
 
-.nombre{ font-size:14px; }
+.nombre{font-size:14px;}
 
-/* PRECIOS */
 .precio-old{
   text-decoration:line-through;
   font-size:12px;
-  color:var(--muted);
+  color:#aaa;
 }
+
 .precio{
   background:white;
   color:black;
@@ -80,7 +75,6 @@ body{
   margin-top:5px;
 }
 
-/* BADGE */
 .badge{
   position:absolute;
   top:8px;
@@ -107,9 +101,8 @@ body{
   cursor:pointer;
 }
 
-.btn.secondary{ background:#cfe8ff; }
-.btn.gift{ background:#ffd6e1; }
-.btn.wsp{ background:#25D366; color:white; }
+.btn.secondary{background:#cfe8ff;}
+.btn.gift{background:#ffd6e1;}
 
 /* TOTAL */
 .total{
@@ -119,18 +112,18 @@ body{
   font-weight:bold;
 }
 
-/* BOTÓN FINAL */
-.confirmar-box{ text-align:center; }
+/* BOTÓN CONFIRMAR */
 .btn.confirmar{
   display:block;
   margin:10px auto 20px auto;
   background:#25D366;
   color:white;
-  padding:10px 20px;
+  padding:12px 20px;
   border-radius:10px;
   font-size:14px;
   border:none;
-  width:fit-content;
+  width:90%;
+  max-width:300px;
 }
 
 /* MODAL */
@@ -142,6 +135,7 @@ body{
   justify-content:center;
   align-items:center;
 }
+
 .modal-box{
   background:#1e293b;
   padding:15px;
@@ -150,6 +144,7 @@ body{
   max-width:350px;
   position:relative;
 }
+
 .cerrar{
   position:absolute;
   right:10px;
@@ -157,4 +152,5 @@ body{
   cursor:pointer;
   color:red;
 }
-.modal img{ width:100%; }
+
+.modal img{width:100%;}
