@@ -1,60 +1,192 @@
 /* MEJOR GRID EN PC */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:16px;
+body{
+  margin:0;
+  font-family:'Segoe UI';
+  background:#0b1220;
+  color:white;
 }
 
-/* CARD MÁS LIMPIO */
+/* HEADER */
+.topbar{
+  background:linear-gradient(90deg,#1e3a8a,#4c1d95);
+  padding:12px;
+}
+.header-content{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.btn-refresh{
+  background:#1f2937;
+  color:white;
+  border:none;
+  border-radius:8px;
+  padding:6px 12px;
+}
+
+/* CONTENIDO */
+.container{
+  max-width:950px;
+  margin:auto;
+  padding:10px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+}
+
+/* CARD */
 .card{
   background:#1e293b;
   border-radius:12px;
   overflow:hidden;
   transition:.2s;
 }
-
 .card:hover{
   transform:translateY(-3px);
-  box-shadow:0 10px 25px rgba(0,0,0,.3);
 }
 
-/* BOTONES MÁS PROFESIONALES */
-.btn{
-  font-size:12px;
-  padding:7px;
+.card-img{
+  height:150px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#fff;
+}
+.card-img img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  cursor:pointer;
+}
+
+/* TEXTO */
+.card-body{
+  padding:10px;
+  text-align:center;
+}
+
+.nombre{
+  font-size:14px;
+  font-weight:600;
+}
+
+/* PRECIO */
+.precio{
+  background:#e2e8f0;
+  color:#000;
+  padding:4px 10px;
+  border-radius:20px;
+  display:inline-block;
+  margin-top:6px;
+}
+
+/* BADGE */
+.badge{
+  position:absolute;
+  top:8px;
+  left:8px;
+  background:red;
+  padding:4px 6px;
   border-radius:6px;
-  font-weight:500;
+  font-size:10px;
 }
 
-.btn.info{background:#2563eb;}
-.btn.gift{background:#7c3aed;}
+/* BOTONES CENTRADOS */
+.actions{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px;
+}
+
+.btn{
+  min-width:90px;
+  font-size:12px;
+  padding:6px;
+  border:none;
+  border-radius:8px;
+  color:white;
+  cursor:pointer;
+}
+
+.btn.info{background:#3b82f6;}
+.btn.gift{background:#8b5cf6;}
 .btn.wsp{background:#16a34a;}
 
-/* MODAL RESPONSIVE REAL */
+a{text-decoration:none}
+
+/* TOTAL */
+.total{
+  text-align:center;
+  margin:15px;
+  font-size:16px;
+  font-weight:bold;
+}
+
+/* CONFIRMAR */
+.btn.confirmar{
+  display:block;
+  margin:10px auto;
+  padding:10px 20px;
+  background:#1f2937;
+  border-radius:10px;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  justify-content:center;
+  align-items:center;
+}
+
 .modal-box{
   background:#1e293b;
-  padding:15px;
+  padding:20px;
+  padding-top:50px;
   border-radius:10px;
-  width:95%;
-  max-width:400px;
-  font-size:13px;
+  width:90%;
+  max-width:350px;
+  position:relative;
+  text-align:center;
 }
 
-/* TEXTO MODAL CONTROLADO */
-.item-desc{
-  font-size:13px;
-  margin-bottom:6px;
-  line-height:1.4;
+.cerrar{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:#111;
+  color:white;
+  border:none;
+  padding:5px 10px;
 }
 
-/* PC AJUSTES */
-@media (min-width:768px){
-  .modal-box{
-    max-width:350px;
-    font-size:12px;
-  }
+/* IMAGEN MODAL */
+.modal img{
+  max-width:100%;
+  max-height:60vh;
+}
 
-  .item-desc{
-    font-size:12px;
-  }
+/* DOTS */
+.galeria-dots{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-top:10px;
+}
+.dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#777;
+}
+.dot.active{
+  background:white;
 }
