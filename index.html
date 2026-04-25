@@ -4,59 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UTANI STORE</title>
-
 <link rel="stylesheet" href="style.css">
-
-<!-- Fuente moderna -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <header class="topbar">
   <div class="header-content">
-    
     <div class="brand">UTANI STORE</div>
-
-    <button onclick="actualizarPagina()" class="btn-refresh">
-      🔄 Actualizar
-    </button>
-
+    <button onclick="actualizarPagina()" class="btn-refresh">🔄 Actualizar</button>
   </div>
 </header>
 
 <main class="container">
-
-  <!-- Cliente -->
   <div id="tituloCliente" class="titulo"></div>
-
-  <!-- Productos -->
   <div id="productos" class="grid"></div>
-
-  <!-- Total -->
   <div id="total" class="total"></div>
 
-  <!-- Botón -->
   <button onclick="enviarCotizacion()" class="btn confirmar">
     Confirmar cotización
   </button>
-
 </main>
 
-<!-- MODAL -->
 <div id="modal" class="modal">
-
   <div class="modal-box">
-
     <button class="cerrar" onclick="cerrarModal()">✖</button>
-
     <div id="contenidoModal"></div>
-
   </div>
-
 </div>
 
 <script src="app.js"></script>
-
 </body>
 </html>
