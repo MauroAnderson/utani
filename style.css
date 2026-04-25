@@ -1,92 +1,211 @@
+:root{
+  --bg:#0b1220;
+  --card:#111a2e;
+  --grad1:#0d6efd;
+  --grad2:#7c3aed;
+  --text:#e6ecff;
+  --muted:#9aa4c7;
+  --accent:#00ff88;
+}
+
+*{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:'Segoe UI';
-  background:#0f172a;
-  color:white;
+  font-family:'Segoe UI', system-ui, -apple-system, Arial;
+  background: radial-gradient(1200px 600px at 10% -10%, #1a2550 0%, transparent 60%),
+              radial-gradient(1200px 600px at 110% 10%, #2a145a 0%, transparent 60%),
+              var(--bg);
+  color:var(--text);
 }
 
 /* HEADER */
 .topbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  backdrop-filter: blur(8px);
+  background: linear-gradient(90deg, rgba(13,110,253,.85), rgba(124,58,237,.85));
+  padding:14px 16px;
   text-align:center;
-  padding:15px;
-  background:linear-gradient(90deg,#0d6efd,#6610f2);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.brand{
+  font-weight:700;
+  letter-spacing:.5px;
 }
 
-/* MENSAJE */
-#mensaje{
+/* CONTENIDO */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:12px;
+}
+
+.titulo{
   text-align:center;
-  margin:20px;
+  font-size:18px;
+  margin:10px 0 4px;
+  font-weight:700;
+}
+
+.mensaje{
+  text-align:center;
+  color:var(--muted);
+  margin:18px 0;
   font-size:14px;
 }
 
-/* GRID */
-#productos{
+/* GRID RESPONSIVE */
+.grid{
   display:grid;
-  grid-template-columns: repeat(2,1fr);
-  gap:12px;
-  padding:10px;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap:16px;
+  padding:6px;
 }
 
 /* CARD */
 .card{
-  background:linear-gradient(135deg,#0d6efd,#6610f2);
-  border-radius:15px;
-  padding:10px;
+  background: linear-gradient(135deg, rgba(13,110,253,.18), rgba(124,58,237,.18));
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,.25);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 16px 30px rgba(0,0,0,.35);
 }
 
-.card img{
+/* IMAGEN */
+.card-img{
   width:100%;
-  height:150px;
+  height:170px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.card-img img{
+  max-width:100%;
+  max-height:100%;
   object-fit:contain;
-  background:white;
-  border-radius:10px;
+  cursor:pointer;
+}
+
+/* BODY */
+.card-body{
+  padding:10px 12px 12px;
 }
 
 .nombre{
-  font-size:13px;
-  margin-top:5px;
+  font-size:14px;
+  font-weight:600;
+  min-height:36px;
 }
 
 /* PRECIOS */
+.precio-old{
+  text-decoration: line-through;
+  color:var(--muted);
+  font-size:12px;
+}
+
 .precio{
-  background:white;
-  color:black;
-  padding:4px 8px;
-  border-radius:10px;
   display:inline-block;
-  margin-top:5px;
+  background:#fff;
+  color:#111;
+  padding:4px 10px;
+  border-radius:999px;
+  font-weight:700;
+  margin-top:6px;
+}
+
+/* BADGE */
+.badge{
+  position:absolute;
+  margin:10px;
+  background:#ff4d4d;
+  padding:3px 8px;
+  border-radius:6px;
+  font-size:11px;
+  font-weight:700;
 }
 
 /* BOTONES */
-.btn{
-  margin-top:5px;
-  padding:5px;
-  border:none;
-  border-radius:6px;
-  font-size:11px;
+.actions{
+  display:flex;
+  gap:6px;
+  margin-top:8px;
 }
 
-/* MODAL BONITO */
+.btn{
+  flex:1;
+  border:none;
+  border-radius:8px;
+  padding:6px 8px;
+  font-size:12px;
+  cursor:pointer;
+  color:#0b1220;
+  background:#e9eefc;
+}
+.btn.secondary{ background:#cfe8ff; }
+.btn.gift{ background:#ffd6e1; }
+.btn:hover{ filter:brightness(1.05); }
+
+/* OBSEQUIO */
+.gift-row{
+  margin-top:6px;
+  font-size:12px;
+  color:#ffd6e1;
+}
+
+/* TOTAL */
+.total{
+  text-align:center;
+  margin:16px 0 8px;
+  font-size:18px;
+  font-weight:700;
+}
+
+/* MODAL */
 .modal{
   display:none;
   position:fixed;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.8);
+  inset:0;
+  background:rgba(0,0,0,.7);
+  backdrop-filter: blur(3px);
   justify-content:center;
   align-items:center;
+  z-index:999;
 }
-
 .modal-box{
-  background:#1e293b;
-  padding:15px;
-  border-radius:10px;
-  width:80%;
-  max-width:300px;
+  width:90%;
+  max-width:420px;
+  background:#121a30;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  padding:14px;
+  position:relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,.5);
+}
+.cerrar{
+  position:absolute;
+  right:10px;
+  top:8px;
+  cursor:pointer;
+  color:#ff6b6b;
+  font-weight:700;
 }
 
-.cerrar{
-  float:right;
-  cursor:pointer;
-  color:red;
+/* CONTENIDO MODAL */
+.modal img{
+  width:100%;
+  border-radius:10px;
+}
+.modal p{
+  font-size:13px;
+  line-height:1.5;
+  color:#dbe2ff;
 }
