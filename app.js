@@ -132,17 +132,39 @@ function verImagenes(imgs){
   mostrarImagen();
 }
 
+
 function mostrarImagen(){
-  let dots=galeriaImgs.map((_,i)=>
+  let dots = galeriaImgs.map((_,i)=>
     `<div class="dot ${i===indexActual?'active':''}" onclick="irA(${i})"></div>`
   ).join("");
 
   document.getElementById("contenidoModal").innerHTML=`
-    <img src="${galeriaImgs[indexActual]}">
+    <div class="galeria-container">
+
+      <button class="nav prev" onclick="anterior()">❮</button>
+
+      <img id="imgGaleria" src="${galeriaImgs[indexActual]}">
+
+      <button class="nav next" onclick="siguiente()">❯</button>
+
+    </div>
+
     <div class="galeria-dots">${dots}</div>
   `;
 
   document.getElementById("modal").style.display="flex";
+
+  activarSwipe(); // 🔥 activar gesto
+}
+
+function siguiente(){
+  indexActual = (indexActual + 1) % galeriaImgs.length;
+  mostrarImagen();
+}
+
+function anterior(){
+  indexActual = (indexActual - 1 + galeriaImgs.length) % galeriaImgs.length;
+  mostrarImagen();
 }
 
 function irA(i){
@@ -150,6 +172,26 @@ function irA(i){
   mostrarImagen();
 }
 
+function activarSwipe(){
+  const img = document.getElementById("imgGaleria");
+
+  let startX = 0;
+
+  img.addEventListener("touchstart", e=>{
+    startX = e.touches[0].clientX;
+  });
+
+  img.addEventListener("touchend", e=>{
+    let endX = e.changedTouches[0].clientX;
+
+    if(endX < startX - 50){
+      siguiente(); // desliza izquierda
+    }
+    else if(endX > startX + 50){
+      anterior(); // desliza derecha
+    }
+  });
+}
 /* DETALLE */
 function verDesc(texto){
   let lista = texto.split("|")
