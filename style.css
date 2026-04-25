@@ -210,3 +210,32 @@ a{text-decoration:none}
   font-size:13px;
   line-height:1.5;
 }
+
+/* CONTENEDOR GALERÍA */
+.galeria-container{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* FLECHAS */
+.nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,0.5);
+  border:none;
+  color:white;
+  font-size:20px;
+  padding:6px 10px;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+.nav.prev{ left:5px; }
+.nav.next{ right:5px; }
+
+.nav:hover{
+  background:#dc2626;
+}
