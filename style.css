@@ -10,6 +10,7 @@ body{
   background:linear-gradient(90deg,#1e3a8a,#4c1d95);
   padding:10px;
 }
+
 .header-content{
   display:flex;
   justify-content:space-between;
@@ -23,6 +24,20 @@ body{
   border-radius:8px;
   padding:6px 10px;
   font-size:12px;
+  cursor:pointer;
+}
+
+/* CONTENIDO */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:10px;
+}
+
+.titulo{
+  text-align:center;
+  margin:10px;
+  font-weight:bold;
 }
 
 /* GRID */
@@ -37,7 +52,7 @@ body{
   background:#1e293b;
   border-radius:12px;
   overflow:hidden;
-  position:relative; /* 🔥 IMPORTANTE PARA EL BADGE */
+  position:relative;
 }
 
 .card-img{
@@ -53,7 +68,9 @@ body{
   object-fit:contain;
 }
 
-.card-body{padding:10px;}
+.card-body{
+  padding:10px;
+}
 
 .nombre{
   font-size:14px;
@@ -76,7 +93,7 @@ body{
   margin-top:5px;
 }
 
-/* BADGE CORRECTO */
+/* BADGE */
 .badge{
   position:absolute;
   top:10px;
@@ -85,10 +102,9 @@ body{
   padding:4px 8px;
   border-radius:6px;
   font-size:11px;
-  z-index:2;
 }
 
-/* BOTONES (VOLVEMOS A TAMAÑO NORMAL) */
+/* BOTONES */
 .actions{
   display:flex;
   gap:6px;
@@ -103,10 +119,9 @@ body{
   font-size:12px;
   cursor:pointer;
   color:white;
-  text-align:center;
 }
 
-.btn.secondary{ background:#3b82f6; }
+.btn.info{ background:#3b82f6; }
 .btn.gift{ background:#8b5cf6; }
 .btn.wsp{ background:#16a34a; }
 
@@ -116,6 +131,7 @@ a{ text-decoration:none; }
 .total{
   text-align:center;
   margin:15px;
+  font-size:16px;
   font-weight:bold;
 }
 
@@ -157,4 +173,8 @@ a{ text-decoration:none; }
   border:none;
   border-radius:6px;
   padding:4px 8px;
+}
+
+.modal img{
+  width:100%;
 }
