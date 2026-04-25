@@ -18,7 +18,7 @@ function cargarDatos(){
 
   productos=[];
 
-  fetch(url)
+  fetch(url + "&t=" + new Date().getTime())
   .then(r=>r.text())
   .then(data=>{
     const filas=data.split("\n").slice(1);
