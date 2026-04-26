@@ -43,7 +43,10 @@ function cargarDatos(){
   });
 }
 
-function actualizarPagina(){ location.reload(); }
+function actualizarPagina(){ 
+  const base = window.location.href.split("?")[0];
+  window.location.href = base + "?t=" + Date.now();
+}
 
 function num(v){
   let n=Number(v);
