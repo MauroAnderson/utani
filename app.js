@@ -18,9 +18,14 @@ function cargarDatos(){
 
   productos=[];
 
-  fetch(url + "&t=" + Date.now(), { cache: "no-store" })
-  .then(r=>r.text())
-  .then(data=>{
+  fetch(url + "&t=" + Date.now(), {
+  method: "GET",
+  cache: "no-store",
+  headers: {
+    "Cache-Control": "no-cache"
+  }
+})
+.then(r => r.text())
     const filas=data.split("\n").slice(1);
 
     filas.forEach(c=>{
