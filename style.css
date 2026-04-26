@@ -246,3 +246,10 @@ a{text-decoration:none}
 .nav{
   z-index:5;
 }
+
+.titulo{
+  text-align:center;
+  font-size:18px;
+  margin:10px 0;
+  color:#75D8FF;
+}
