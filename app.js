@@ -43,7 +43,7 @@ function cargarDatos(){
   });
 }
 
-function actualizarPagina(){ cargarDatos(); }
+function actualizarPagina(){ location.reload(); }
 
 function num(v){
   let n=Number(v);
