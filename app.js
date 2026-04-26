@@ -18,15 +18,11 @@ function cargarDatos(){
 
   productos=[];
 
-  fetch(url + "&t=" + Date.now(), {
-  method: "GET",
-  cache: "no-store",
-  headers: {
-    "Cache-Control": "no-cache"
-  }
-})
-.then(r => r.text())
-    const filas=data.split("\n").slice(1);
+  fetch(url + "&t=" + Date.now()) // ✅ SOLO ESTO
+  .then(r => r.text())
+  .then(data => {
+
+    const filas = data.split("\n").slice(1);
 
     filas.forEach(c=>{
       let col = parseCSVLine(c);
@@ -38,7 +34,7 @@ function cargarDatos(){
         precio:col[3].trim(),
         oferta:col[4].trim(),
         descripcion:col[5].trim(),
-        imagen:(col[6] || "").replace(/"/g,"").trim(), // 🔥 FIX IMÁGENES
+        imagen:(col[6] || "").replace(/"/g,"").trim(),
         obsequio:col[7].trim()
       });
     });
