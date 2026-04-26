@@ -43,9 +43,12 @@ function cargarDatos(){
   });
 }
 
-function actualizarPagina(){ 
-  const base = window.location.href.split("?")[0];
-  window.location.href = base + "?t=" + Date.now();
+function actualizarPagina(){
+  const url = new URL(window.location.href);
+
+  url.searchParams.set("t", Date.now()); // 🔥 agrega sin borrar cliente
+
+  window.location.href = url.toString();
 }
 
 function num(v){
