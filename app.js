@@ -60,8 +60,10 @@ function num(v){
 /* INICIO */
 function iniciar(){
   const cliente=getCliente();
+  const nombre = capitalizarNombre(cliente);
+
   document.getElementById("tituloCliente").innerHTML =
-      `Cotización para: <b>${cliente}</b>`;
+    `Cotización para: <b>${nombre}</b>`;
   const lista=productos.filter(p =>
     p.cliente.toLowerCase()===cliente.toLowerCase()
   );
@@ -286,6 +288,15 @@ function generarMensajeProducto(p){
                 `Precio: S/ ${precio}`;
 
   return encodeURIComponent(mensaje);
+}
+
+function capitalizarNombre(texto){
+  if(!texto) return "";
+  return texto
+    .toLowerCase()
+    .split(" ")
+    .map(p => p.charAt(0).toUpperCase() + p.slice(1))
+    .join(" ");
 }
 
 
