@@ -60,7 +60,8 @@ function num(v){
 /* INICIO */
 function iniciar(){
   const cliente=getCliente();
-
+  document.getElementById("tituloCliente").innerHTML =
+      `Cotización para: <b>${cliente}</b>`;
   const lista=productos.filter(p =>
     p.cliente.toLowerCase()===cliente.toLowerCase()
   );
@@ -221,6 +222,7 @@ function verGift(texto){
 function cerrarModal(){
   document.getElementById("modal").style.display="none";
 }
+
 
 /* CSV */
 function parseCSVLine(line){
